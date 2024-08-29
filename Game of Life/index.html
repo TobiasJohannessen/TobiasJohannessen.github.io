@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of Life</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 style="text-align: center">Conway's Game of Life</h1>
+    <h3 id="generationCounter" style="text-align: center;">Generation: 0</h3>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+        <button id="startButton">Start Simulation</button>
+        <button id="clearButton">Clear</button>
+        <button id="randomButton">Randomize!</button>
+        
+        <p>Click on a cell to activate/deactivate it.</p>
+    </div>
+    <p style="text-align: center;">Simulation speed:</p>
+    <div id="sidebar">
+        <div class="input-container">
+            <input type="number" id="loneliness" min="0" max="9" value="1">
+            <span class="infoBox">
+            Loneliness
+                <span class="term">
+                When there are less than this number of neighbors, the cell dies of loneliness :(   
+                </span>
+            </span>
+        </div>
+        <div class="input-container">
+            <input type="number" id="reproduction" min="1" max="9" value="3">
+            <span class="infoBox">
+            Reproduction
+                <span class="term">
+                When there are exactly this number of neighbors, a new cell is born :)
+                </span>
+            </span>
+        </div>
+        <div class="input-container">
+            <input type="number" id="overpopulation" min="1" max="9" value="4">
+            <span class="infoBox">
+            Overpopulation
+                <span class="term">
+                When there are more than this number of neighbors, the cell dies of overpopulation :(
+                </span>
+            </span>
+        </div>
+        <button id="refreshButton">Refresh</button>
+    </div>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="21" value="11" class="slider" id="fpsSlider">
+        <!--<input type="range" min="10" max="50" value="25" class="vertical-slider" id="gridsizeSlider">-->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
