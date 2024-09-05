@@ -8,6 +8,10 @@ const regex = /Week(\d+).html/; // Match 'Week' followed by a number
 const match = fileName.match(regex);
 const currentNumber = match ? parseInt(match[1]) : 1;
 
+
+
+
+
 // Generate 14 week links dynamically
 for (let i = 0; i <= 15; i++) {
 
@@ -56,10 +60,4 @@ for (let i = 0; i <= 15; i++) {
     }
     
 }
-
-// Get the arrow elements
-/*const rightArrow = document.getElementById('rightArrow');
-/*const leftArrow = document.getElementById('leftArrow');*/
-
-// Move to the next page
 

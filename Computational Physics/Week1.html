@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Week 1</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
     <h1>Week 1</h1>
@@ -15,17 +19,26 @@
         <p>Something something, random walkers</p>
 
         <img src="Exercises/Week 1/Animations/random_walkers.gif" alt="Random Walkers" style="width: 30%;">
-
+        
 
     </div>
+    
     
 
     <div>
         <h1> Boxes on a Ramp</h1>
+
+        <a href="Exercises/Week 1/Slope.html" style="position: relative;">Python Code</a><br>
         <p>Something something, solving differential equations</p>
+        
+            
+
         <img src="Exercises/Week 1/Animations/linear_vs_quadratic_vs_brachistochrone.gif" alt="lin_quad_brach" style="width: 30%;">
 
         <p>Something something, cycloid goes boom</p>
+        
+
+    
         <img src="Exercises/Week 1/Animations/boxes.gif" alt="Boxes" style="width: 30%;">
     </div>
     
@@ -41,5 +54,14 @@
     <div>
 
     <script src="script.js"></script>
+
+    <script>
+        fetch('Exercises/Week 1/Slope.py')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('codeBlock').innerText = data;
+            })
+            .catch(error => console.error('Error loading Python code:', error));
+    </script>
     
 </body>
