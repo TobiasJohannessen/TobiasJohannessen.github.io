@@ -57,9 +57,3 @@ for (let i = 0; i <= 15; i++) {
     
 }
 
-// Get the arrow elements
-/*const rightArrow = document.getElementById('rightArrow');
-/*const leftArrow = document.getElementById('leftArrow');*/
-
-// Move to the next page
-
