@@ -1,8 +1,9 @@
 h1, h2, h3, h4, h5 h6{
     text-align: center;
+
 }
 
-h{
+h1{
     color: #000000;
     font-family: 'Arial';
     font-size: 20px;
@@ -17,7 +18,7 @@ h{
 p{
     color: #000000;
     font-family: 'Arial';
-    font-size: 20px;
+    font-size: 1.5vw;
     font-weight: normal;
     text-align: left;
     margin-top: 0px;
@@ -52,3 +53,6 @@ img{
     width: 50%;
 }
 
+body{
+    background-color: bisque;
+}
