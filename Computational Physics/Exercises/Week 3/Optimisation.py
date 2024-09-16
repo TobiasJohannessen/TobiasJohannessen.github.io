@@ -212,19 +212,21 @@ class Potential():
     
 
 
-class Lennard_Jones():
+class LennardJones():
 
     def __init__(self, eps0 = 5, sigma = 2**(-1/6)):
         self.eps0 = eps0
         self.sigma = sigma
 
-    def _V(self, r):
-        V = 4*self.eps0*((self.sigma/r)**12 - (self.sigma/r)**6)
+    def _V(self, distance):
+        V = 4*self.eps0*((self.sigma/distance)**12 - (self.sigma/distance)**6)
+        return V
 
 
-    def energy(self, positions):
+    def energy(self, positions): 
         return np.sum(self._V(pdist(positions)))
-        
+
+    
     
 
 
