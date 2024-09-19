@@ -5,6 +5,71 @@ import matplotlib.patches as mpatches
 
 from scipy.spatial.distance import pdist,squareform
 
+############################################################################################################
+
+# KMeans class for clustering
+
+############################################################################################################
+
+class KMeans:
+    def __init__(self, n_clusters, max_iter=100, tol=1e-10):
+        self.n_clusters = n_clusters
+        self.max_iter = max_iter
+        self.tol = tol
+        self.centroids = None
+        self.clusters = None
+        self.labels = None
+
+    def fit(self, X):    
+
+        #Pick out some random points in the data to be the initial centroids
+        M, n_features = X.shape
+        random_indices = np.random.choice(M, self.n_clusters, replace=False)
+        self.centroids = X[random_indices]
+
+        
+        for i in range(self.max_iter):
+
+            
+            #Calculate the distance between each point and each centroid
+            distances = np.linalg.norm(X[:, np.newaxis] - self.centroids, axis=2)
+            
+            #Find which centroid is closest to each point. This is equal to the cluster assignment
+            self.labels = np.argmin(distances, axis=1)
+            
+            #Calculate the new centroids as the mean of all points assigned to each cluster
+            new_centroids= np.array([X[self.labels == j].mean(axis=0) for j in range(self.n_clusters)])
+
+
+            #If the centroids have not moved much, we have converged
+            if np.all(np.abs(new_centroids - self.centroids) < self.tol):
+                print(f'Converged after {i} iterations')
+                
+                break
+            self.centroids = new_centroids  
+            
+
+       
+
+        return self.centroids
+
+
+
+    def predict(self, X):        
+        distances = np.linalg.norm(X[:, np.newaxis] - self.centroids, axis=2)
+        
+        self.labels = np.argmin(distances, axis=1)
+        return self.labels
+
+
+############################################################################################################
+
+# PRINCIPAL COMPONENT ANALYSIS
+
+############################################################################################################
+
+
+
 class PCA():
 
     def __init__(self, n_components = 2, color='C0'):
@@ -13,11 +78,10 @@ class PCA():
         
 
     def fit(self, X):
-        X_centered = np.zeros(X.shape)
-        for i in range(X.shape[1]):
-            X_centered[:,i] = X[:,i] - np.mean(X[:,i])
+        X_centered = X - np.mean(X,axis=0)
         
-        cov_matrix = 1/(X.shape[1]-1) * np.dot(X_centered.T,X_centered)
+
+        cov_matrix = np.cov(X_centered.T)
 
         eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
 
@@ -28,6 +92,7 @@ class PCA():
 
 
         Z_full = X_centered @ eigenvectors
+
         return Z_full
     
     def transform(self, X):
@@ -45,13 +110,21 @@ class PCA():
 
 
 
+############################################################################################################
+
+# COULOMB MATRIX SPECTRUM
+
+############################################################################################################
+
+
+
 class CoulombMatrixSpectrum():
     
     def __init__(self, color='C4'):
         self.xwidth = 1
         self.desc_color = color
     
-    def descriptor(self,pos):
+    def descriptor(self, pos):
         # Calculate the connectivity matrix where 1 means that two particles are within the cutoff distance and 0 means they are not
         connectivity_matrix = (squareform(1/pdist(pos)))
 
@@ -71,6 +144,14 @@ class CoulombMatrixSpectrum():
         ax.xaxis.set_major_locator(plt.MultipleLocator(1.0))
         ax.set_ylim([-2,8])
         ax.set_title(self.__class__.__name__)
+
+
+############################################################################################################
+
+# CONNECTIVITY GRAPH SPECTRUM
+
+############################################################################################################
+
 
 class ConnectivityGraphSpectrum():
     
@@ -102,6 +183,11 @@ class ConnectivityGraphSpectrum():
         ax.set_title(self.__class__.__name__)
 
 
+############################################################################################################
+
+# COORDINATION NUMBERS
+
+############################################################################################################
 
 class CoordinationNumbers():
     
@@ -131,6 +217,12 @@ class CoordinationNumbers():
         ax.set_title(self.__class__.__name__)
 
 
+############################################################################################################
+
+# PAIR DISTANCES
+
+############################################################################################################
+
 class PairDistances():
     
     def __init__(self, color='C1'):
@@ -150,6 +242,12 @@ class PairDistances():
         ax.xaxis.set_major_locator(plt.MultipleLocator(1.0))
         ax.set_title(self.__class__.__name__)
 
+
+############################################################################################################
+
+# EXTREME NEIGHBOR COUNT
+
+############################################################################################################
 
 class ExtremeNeighborCount():
     
@@ -227,6 +325,12 @@ class ExtremeNeighborCount():
         return plot_element
 
 
+############################################################################################################
+
+# DISTANCE MOMENTS
+
+############################################################################################################
+
 class DistanceMoments():
     
     def __init__(self,color='C4'):
@@ -282,6 +386,13 @@ class DistanceMoments():
 
 
 
+############################################################################################################
+
+# ATOMIC CLUSTER CLASS
+
+############################################################################################################
+
+
 class AtomicCluster():
 
     def __init__(self, positions, descriptor_methods = None):
@@ -289,21 +400,38 @@ class AtomicCluster():
         self.descriptor_methods = [descriptor() for descriptor in descriptor_methods]
         self._cluster = None
         self._color = None
+        
 
 
+    #Calculate a given descriptor for the atomic cluster
+    def get_descriptor(self, method):
+        return method().descriptor(self.pos)
     
-
     
 
     def cluster_color(self, descriptor):
-        clustercolor = f'C{descriptor.cluster(self.pos)}'
+        if hasattr(descriptor, 'cluster'):
+            clustercolor = f'C{descriptor.cluster(self.pos)}'
+        else:
+            clustercolor = 'C0'
         return clustercolor
 
-    def draw(self, ax, offset = [0,0], ms = 30, descriptor = False):
-        for pos in self.pos:
+
+
+    #Functions to draw the atomic cluster and its descriptors
+
+    def draw(self, ax, offset = [0,0], ms = 30, descriptor = False, set_color = None):
+        
+        if set_color is not None:
+            self._color = set_color
+        else:
             if descriptor is False:
                 descriptor = self.descriptor_methods[0]
-            circle = mpatches.Circle(pos + offset, 0.5, facecolor=self.cluster_color(descriptor), alpha = 0.5)
+            self._color = self.cluster_color(descriptor)
+
+            
+        for pos in self.pos:
+            circle = mpatches.Circle(pos + offset, 0.5, facecolor=self._color, alpha = 0.5)
             circle_edge = mpatches.Circle(pos + offset, 0.5, facecolor='none', edgecolor='black', lw=1)
             ax.add_patch(circle)
             ax.add_patch(circle_edge)
@@ -328,15 +456,16 @@ class AtomicCluster():
                 plot_elements.append(descriptor.draw_cluster(self.pos, ax))
             return plot_elements
         
-    def draw_all(self):
+    def draw_all(self, plot_color = None):
         if self.descriptor_methods is not None:
             descriptors = self.descriptor_methods
             fig, axs = plt.subplots(1, len(descriptors) + 1, figsize=(len(descriptors)*4, 2.5))
             axes = np.zeros(len(descriptors) + 1).astype(object)
-            axes[0] = self.draw(axs[0])
+            axes[0] = self.draw(axs[0], set_color = plot_color)
             for ax, descriptor, i in zip(axs[1:], descriptors, range(len(descriptors))):
                 axes[i + 1] = descriptor.draw_descriptor(self.pos, ax)
 
             return axes
-            
+        
+
 

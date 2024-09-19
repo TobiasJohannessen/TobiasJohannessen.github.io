@@ -1,3 +1,12 @@
+/* This is the CSS file for the website. */
+
+/* Make a setting that is applied to all:*/
+*{
+    font-family: 'Arial';
+}
+
+
+
 h1, h2, h3, h4, h5 h6{
     text-align: center;
 
@@ -77,3 +86,16 @@ pre code {
   display: block;
   padding: 20px;
 }
+
+
+.crossed-out {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.week-title {
+    font-weight: bold;
+    margin-top: 20px;
+}
+.task-list {
+    margin-bottom: 10px;
