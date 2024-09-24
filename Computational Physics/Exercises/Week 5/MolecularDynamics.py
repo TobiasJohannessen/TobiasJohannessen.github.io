@@ -161,6 +161,19 @@ class Potential():
     
 
 
+    def force(self, x):
+        if self.type == 'Harmonic':
+            return -self.k*(x-self.x0)
+
+        if self.type == 'Harmonic + Exponential':
+            return -self.k*(x-self.x0) + 2*self.A/self.B**2 * (x-self.x1) * np.exp(-((x-self.x1)/self.B)**2)
+
+        else:
+            return -( self.V(x + self.delta_x) - self.V(x)/(self.delta_x) )
+
+    
+
+
 
    
     #Methods to calculate the expectation value and  of the potential
@@ -228,7 +241,7 @@ class Potential():
     
     def direct_MC(self, N = 100000):
 
-        #Method 3 to find: C_V = d<E>/dT 
+        #Method 3 to find: <V>
         #Use Monte Carlo sampling to calculate the expectation value
 
         self.sample_n_MC(N)
@@ -301,14 +314,50 @@ class Potential():
         print(f'Accepted {len(mcmc_chain) - 1} out of {N - len(self.mcmc)} samples: {(len(mcmc_chain) - 1)/(N - len(self.mcmc))*100:.3g}% acceptance rate')
         self.mcmc = mcmc_chain
         
+
+    def _velocity_Verlet(self,x, v, dt = 0.1):
+
+        k = self.k
+        x_new = x + dt* v + dt**2/2 * (self.force(x))
+        v_new = v + 1/2 * (self.force(x) + self.force(x_new)) * dt
+        return x_new, v_new
+
+    def N_velocity_Verlet(self,x0, v0, N, dt = 0.01):
+        x = x0
+        v = v0
+        xs = []
+        vs = []
+        for _ in range(N):
+            x, v = self._velocity_Verlet(x = x, v = v, dt = dt)
+            xs.append(x)
+            vs.append(v)
+        return xs, vs
+
+
+    def constant_temp_MD(self,x0,N = 10000, m = 1, dt = 0.01):
+        x = x0
+        xs = []
+        for _ in range(N):
+            v = np.random.normal(0,np.sqrt(self.kT/m))
+            xs_new, vs_new = self.N_velocity_Verlet(x0 = x, v0 = v, N = 50, dt = dt)
+            x = xs_new[-1]
+            xs += [x]
+        
+        V_xs = [self.V(x) for x in xs]
+
+        self.V_avg_MD = np.mean(V_xs)
+
+        self.C_V_MD = np.var(V_xs)/(self.kT**2)
+        
+        return xs,  self.V_avg_MD, self.C_V_MD
     
     
 
     def thermodynamics(self):
-        self.V_avg_direct = self.direct_integration()
-        self.C_V_fluctuations = self.fluctuations()
-        self.C_V_numerical = self.numerical_derivative()
-        self.V_avg_MC = self.direct_MC()
+        self._V_avg_direct = self.direct_integration()
+        self._C_V_fluctuations = self.fluctuations()
+        self._C_V_numerical = self.numerical_derivative()
+        self._V_avg_MC = self.direct_MC()
         
         print(f'Heat capacity for {self.type} potential:')
         print(f'Direct integration: {self.V_avg_direct:.3g}')
@@ -337,25 +386,55 @@ class Potential():
 
     
 
+   
+
+        
+
+
+    
+
 
         
     
 class HarmonicOscillator(Potential):
 
-    def __init__(self, k = 1, x_0 = 0, x_range = [-2, 2], kT = 1, N_bins = 40):
+    def __init__(self, k = 1, x0 = 0, x_range = [-2, 2], kT = 1, N_bins = 40):
         self.k = k
-        self.x_0 = x_0
+        self.x0 = x0
         self.type = 'Harmonic'
-        self.V = lambda x: 0.5*k*(x-x_0)**2
+        self.V = lambda x: 0.5*k*(x-x0)**2
         super().__init__(self.V, type = self.type, x_range = x_range, kT = kT, N_bins=N_bins)
 
 
+    
+
 
 
         
-        
-        
+class CustomPotential(Potential):
 
+    def __init__(self, k = 1, x0 = 0, x1 = 1, A = 1, B = 1, x_range=[-2,2], kT = 0.15, N_bins = 40):
+
+        self.k = k
+        self.x0 = x0
+        self.x1 = x1
+        self.type = 'Harmonic + Exponential'
+        self.A = A
+        self.B = B
+        self.V = lambda x: 0.5*k*(x-x0)**2 + A * np.exp(- ((x-self.x1)/B)**2)
+        super().__init__(self.V, type = self.type, x_range = x_range, kT = kT, N_bins=N_bins)
+
+
+    
+
+    def E_pot_numeric(self, x):
+        E_pot_0 = self.V(self.x0)
+        integrand = lambda x_: self.force(x_)
+        E_pot_1 = quad(integrand, self.x0, x)[0]
+        return E_pot_0 - E_pot_1
+
+
+   
 
     
 

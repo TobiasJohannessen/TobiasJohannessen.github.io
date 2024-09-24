@@ -157,7 +157,7 @@ class Potential():
         self.x_is += x_is
 
     #Metropolis-Hastings MCMC sampling
-    def sample_MCMC(self, N = 1000, initial_point = 0.1, break_point = None, write = True):
+    def sample_MCMC(self, N = 1000,  shape = [1,], initial_point = [0.1], break_point = None, write = True):
 
         match self.method:
             case 'Random Walk':
@@ -186,7 +186,7 @@ class Potential():
     
         for _ in range(N - len(self.mcmc)):
 
-            step_method_1 = self.mcmc_delta_x * np.random.normal(0,1) * random_walk
+            step_method_1 = self.mcmc_delta_x * np.random.randn(*shape) * random_walk
             step_method_2 = (np.random.uniform(self.x_min, self.x_max) - current_point) * uniform 
             
             new_point = current_point + step_method_1 + step_method_2
