@@ -393,7 +393,7 @@ class DistanceMoments():
 ############################################################################################################
 
 
-class AtomicCluster():
+class AtomicCluster_2():
 
     def __init__(self, positions, descriptor_methods = None):
         self.pos = positions
