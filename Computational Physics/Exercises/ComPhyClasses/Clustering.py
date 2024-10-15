@@ -225,16 +225,28 @@ class CoordinationNumbers():
 
 class PairDistances():
     
-    def __init__(self, color='C1'):
+    def __init__(self, color='C1', descriptor_type = 'global'):
         self.xwidth = 0.5
         self.desc_color = color
         self.bin_edges = np.arange(0,7.01,self.xwidth)
         self.bin_centers = (self.bin_edges[:-1] + self.bin_edges[1:]) /2
-    
-    def descriptor(self,pos):
-        distances = pdist(pos)
-        hist, _ = np.histogram(distances,bins=self.bin_edges)
-        return hist
+        self.type = descriptor_type
+    def descriptor(self,pos, N_bins = None):
+        
+        if N_bins is None:
+            N_bins = len(self.bin_edges) - 1
+        if self.type == 'local':
+            distance_matrix = squareform(pdist(pos))
+            vector = [np.histogram(row,bins=self.bin_edges)[0][:N_bins] for row in distance_matrix]
+            
+        
+        elif self.type == 'global':
+            distances = pdist(pos)
+            vector, _ = np.histogram(distances,bins=self.bin_edges)
+            vector = vector[:N_bins]
+            
+        
+        return vector
     
     def draw_descriptor(self,pos,ax):
         vector = self.descriptor(pos)

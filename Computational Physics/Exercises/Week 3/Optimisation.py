@@ -6,9 +6,6 @@ from scipy.optimize import minimize
 
 k_b = 1#.38e-23 #J/K
 T = 200 #Kelvin
-        
-    
-
 
 
 

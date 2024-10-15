@@ -464,6 +464,9 @@ class CustomPotential(Potential):
         return E_pot_0 - E_pot_1
 
 
+
+
+
 class LennardJones(Potential):
 
     def __init__(self, eps0 = 5, sigma = 2**(-1/6), x_range = [0.8, 2], kT = 0.15, N_bins = 40):
@@ -472,8 +475,8 @@ class LennardJones(Potential):
         self.type = 'Lennard-Jones'
         super().__init__( type = self.type, x_range = x_range, kT = kT, N_bins=N_bins)
 
-    def _V(self, distance):
-        V = 4*self.eps0*((self.sigma/distance)**12 - (self.sigma/distance)**6)
+    def _V(self, r):
+        V = 4*self.eps0*((self.sigma/r)**12 - (self.sigma/r)**6)
         return V
 
     def _dV_dr(self, r):
@@ -493,4 +496,72 @@ class LennardJones(Potential):
         return forces
 
 
+class PeriodicLennardJones(Potential):
 
+    def __init__(self, eps = 1):
+        self.eps = eps
+
+    def _V(self, r):
+        return self.eps*((r**-12)-2 *(r**-6))
+
+    def _dVdR(self, r):
+        return 12 * self.eps*(-(r**-13) + (r**-7))
+
+
+    def _pairwise_distance_matrix(self, pos, box):
+        diff = pos[np.newaxis,:,:] - pos[:,np.newaxis,:]
+        for dim in range(2):
+            diff[:,:,dim] -= np.rint(diff[:,:,dim]/box[dim,dim])*box[dim,dim]
+
+        return diff
+
+    def energy(self, pos, box):
+        diff = self._pairwise_distance_matrix(pos, box)
+        r = np.sqrt(np.sum(diff**2, axis = -1))
+        return np.sum(self._V(squareform(r)))
+
+    def forces(self, pos, box):
+        diff = self._pairwise_distance_matrix(pos, box)
+        r = np.sqrt(np.sum(diff**2, axis = -1))
+        np.fill_diagonal(r, np.inf)
+        force_magnitude = self._dVdR(r)
+        forces = np.sum(force_magnitude[...,np.newaxis] * diff/r[...,np.newaxis], axis = 1)
+        return forces
+
+    
+class PeriodicLennardJonesWithStress(PeriodicLennardJones):
+
+    def stress(self):
+        pass
+
+    def pressure(self):
+        pass
+
+
+class LennardJonesGauss(PeriodicLennardJonesWithStress):
+
+    def __init__(self, eps, r0 = 1.7, sigma_squared = 0.02):
+        self.eps = eps
+        self.r0 = r0
+        self.sigma_squared = sigma_squared
+
+    def _V(self, r):
+        V = r**(-12) - 2 * r**(-6) \
+            - self.eps * np.exp(-((r - self.r0)**2)/(2*self.sigma_squared))
+        return V
+
+    def _dV_dr(self, r):
+        dV_dr = -12 * r**(-13) + 12 * r**(-7) \
+            + np.exp(-((r - self.r0)**2)/(2*self.sigma_squared)) \
+                * (r -  self.r0)/(self.sigma_squared)
+        return dV_dr
+
+
+class LennardJonesGaussWithLocalEnergies(LennardJonesGauss):
+
+    def local_energies(self, pos, box):
+        diff = self._pairwise_distance_matrix(pos, box)
+        r = np.sqrt(np.sum(diff**2, axis = -1))
+        np.fill_diagonal(r, np.inf)
+        le = 0.5 * np.sum(self._V(r), axis = 0)
+        return le

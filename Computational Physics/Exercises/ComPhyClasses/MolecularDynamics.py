@@ -172,7 +172,7 @@ class MolDynSystem(SimulationSystem):
         ax.set_title(f'<Vpot>={vpotave:.3f}')
 
 
-def relax(cluster,steps=100):
+def relax(cluster,steps=100, tol = 0.05):
     
     test = cluster.copy()
     def energy_of_alpha(alpha,p):
@@ -182,7 +182,7 @@ def relax(cluster,steps=100):
     for i in range(steps):
         f = cluster.forces()
         fnorm = np.linalg.norm(f)
-        if fnorm < 0.05:
+        if fnorm < tol:
             break
         p = f/fnorm
         
@@ -198,12 +198,13 @@ def relax(cluster,steps=100):
 class StaticAtomicCluster():
 
     def __init__(self, calc, N=None, pos=None, static=None, b=4,
-                descriptor_method=None, kT=0.15):
+                descriptor_method=None, kT=0.15, periodicity= [0, 0], labels = None):
+        self.b = b
         self.calc = calc
         assert (N is not None and pos is None) or \
                (N is None and pos is not None), 'You must specify either N or pos'
         if pos is not None:
-            self.pos = np.array(pos)*1.
+            self.pos = np.array(pos)
             self.N = len(pos)
         else:
             self.N = N
@@ -213,10 +214,17 @@ class StaticAtomicCluster():
             self.static = static
         else:
             self.static = [False for _ in range(self.N)]
+
+        self.periodicity = periodicity
+        if periodicity == [0, 0]:
+            self.periodicity = False
+        self.labels = None
+        if labels is not None:
+            self.labels = labels
         self.filter = np.array([self.static,self.static]).T
         self.indices_dynamic_atoms = \
                             [i for i,static in enumerate(self.static) if not static]
-        self.b = b
+        
         self.plot_artists = {}
         self.descriptor_method = descriptor_method
         self.kT = kT
@@ -246,12 +254,14 @@ class StaticAtomicCluster():
         return self.descriptor_method.descriptor(self.pos)
 
     def energy_title(self):
-        return f'Ep={self.potential_energy:.1f}'
+        return f'Ep={self.potential_energy:.2g}'
     
     def draw(self,ax,size=100,alpha=1,force_draw=False,edge=False,color='C0',
              energy_title=True):
         if self.plot_artists.get(ax,None) is None or force_draw or edge:
             colors = ['C1' if s else color for s in self.static]
+            if self.labels is not None:
+                colors = [f'C{label}' for label in self.labels]
             facecolors = [to_rgba(c,alpha) for c in colors]
             if edge:
                 edgecolors = (0,0,0,1)
@@ -297,9 +307,9 @@ class AtomicCluster(StaticAtomicCluster):
         return self.velocities.copy()
     
     def energy_title(self):
-        return f'Ek={self.kinetic_energy:.1f} ' +\
-               f'Ep={self.potential_energy:.1f} ' + \
-               f'E={self.potential_energy + self.kinetic_energy:.1f}'
+        return f'Ek={self.kinetic_energy:.2g} ' +\
+               f'Ep={self.potential_energy:.2g} ' + \
+               f'E={self.potential_energy + self.kinetic_energy:.2g}'
 
 
 def velocity_verlet(cluster, N = 100):
