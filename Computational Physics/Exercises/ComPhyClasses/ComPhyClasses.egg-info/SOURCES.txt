@@ -6,7 +6,6 @@ ComPhyClasses.egg-info/top_level.txt
 cpclasses/Clustering.py
 cpclasses/MolecularDynamics.py
 cpclasses/Optimisation.py
-cpclasses/Packages.py
 cpclasses/Periodicity.py
 cpclasses/PlotTools.py
 cpclasses/Potentials.py

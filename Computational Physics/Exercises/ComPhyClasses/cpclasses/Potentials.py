@@ -1,7 +1,9 @@
 
 k_b = 1#.38e-23 #J/K
 T = 200 #Kelvin
-        
+import numpy as np
+#import pytorch
+import torch
     
 
 
@@ -559,3 +561,13 @@ class LennardJonesGaussWithLocalEnergies(LennardJonesGauss):
         np.fill_diagonal(r, np.inf)
         le = 0.5 * np.sum(self._V(r), axis = 0)
         return le
+
+
+
+class LennardJonesGaussTorch(LennardJonesGauss):
+
+
+    def _V(self, r):
+        V = r**(-12) - 2 * r**(-6) \
+            - self.eps * torch.exp(-((r - self.r0)**2)/(2*self.sigma_squared))
+        return V

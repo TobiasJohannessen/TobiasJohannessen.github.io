@@ -1,7 +1,7 @@
 
 from .MolecularDynamics import StaticAtomicCluster, AtomicCluster
 from .Potentials import Potential
-
+import numpy as np
 
 class PeriodicSystem(AtomicCluster):
     def __init__(self, *args, box = 10*np.eye(2), **kwargs):
