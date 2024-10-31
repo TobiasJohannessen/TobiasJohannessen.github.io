@@ -1,11 +1,16 @@
 /* This is the CSS file for the website. */
 
 /* Make a setting that is applied to all:*/
+
 *{
     font-family: 'Arial';
 }
 
-
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 h1, h2, h3, h4, h5 h6{
     text-align: center;
@@ -31,9 +36,9 @@ p{
     font-weight: normal;
     text-align: left;
     margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 2.5%;
+    margin-right: 15%;
 }
 
 a{
@@ -62,6 +67,19 @@ img{
     width: 50%;
 }
 
+
+.imgText{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+
 body{
     background-color: white;
 }
@@ -78,6 +96,14 @@ body{
     text-align: center;
     bottom: 0;
     width: 99%;
+}
+
+
+.chapter{
+    border: 2px solid black;
+    margin: 10px 10px 10px 10px;
+    background-color: #f1f1f1;
+    padding: 25px;
 }
 
 pre code {
@@ -104,8 +130,8 @@ pre code {
 .linkContainer {
     position: relative;
     margin: auto;
-    width: 400px;
-    height: 250px;
+    width: 30%;
+    height: auto;
     padding: 100px;
     background: linear-gradient(to top, white, #f1f1f1);
     border-radius: 25px;
@@ -118,10 +144,10 @@ pre code {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    display: block;
-    max-width: 90%;
-    max-height: 90%;
+    display: flex;
     mix-blend-mode: multiply;
+    width: auto;
+    height: 70%;
     border-radius: 25px;
 
 }
@@ -171,4 +197,14 @@ pre code {
     text-align: center;
     opacity: 1;
     
+}
+
+
+
+/*Make a flex container with a row layout with 3 items in each row*/
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 3 columns */
+    gap: 20px; /* Adjust spacing between items as desired */
 }

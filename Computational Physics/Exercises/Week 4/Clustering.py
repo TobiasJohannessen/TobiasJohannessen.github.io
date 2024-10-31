@@ -397,6 +397,8 @@ class AtomicCluster():
 
     def __init__(self, positions, descriptor_methods = None):
         self.pos = positions
+        if hasattr(descriptor_methods, '__iter__') == False:
+            descriptor_methods = [descriptor_methods]
         self.descriptor_methods = [descriptor() for descriptor in descriptor_methods]
         self._cluster = None
         self._color = None
@@ -420,7 +422,7 @@ class AtomicCluster():
 
     #Functions to draw the atomic cluster and its descriptors
 
-    def draw(self, ax, offset = [0,0], ms = 30, descriptor = False, set_color = None):
+    def draw(self, ax, offset = [0,0], ms = 30, descriptor = False, set_color = None, alpha = 0.5, alpha_edge = 1):
         
         if set_color is not None:
             self._color = set_color
@@ -431,8 +433,8 @@ class AtomicCluster():
 
             
         for pos in self.pos:
-            circle = mpatches.Circle(pos + offset, 0.5, facecolor=self._color, alpha = 0.5)
-            circle_edge = mpatches.Circle(pos + offset, 0.5, facecolor='none', edgecolor='black', lw=1)
+            circle = mpatches.Circle(pos + offset, 0.5, facecolor=self._color, alpha = alpha)
+            circle_edge = mpatches.Circle(pos + offset, 0.5, facecolor='none', edgecolor='black', lw=1, alpha = alpha_edge)
             ax.add_patch(circle)
             ax.add_patch(circle_edge)
         
@@ -442,16 +444,25 @@ class AtomicCluster():
         return ax
 
 
+    def draw_descriptor(self, ax):
+        if self.descriptor_methods is not None:
+            for descriptor in self.descriptor_methods:
+                descriptor.draw_descriptor(self.pos, ax)
+
     def draw_descriptors(self, axs):
         if self.descriptor_methods is not None:
+            if hasattr(axs, '__iter__') == False:
+                axs = [axs]
             assert len(axs) == len(self.descriptor_methods), 'Number of axes must match number of descriptors'
             for ax, descriptor in zip(axs, self.descriptor_methods):
-                descriptor.draw_descriptor(self.pos, ax)
+                self.draw_descriptor(ax, descriptor)
 
     def draw_cluster(self, axs):
         if self.descriptor_methods is not None:
-            assert len(axs) == len(self.descriptor_methods), 'Number of axes must match number of descriptors'
+            #assert len(axs) == len(self.descriptor_methods), 'Number of axes must match number of descriptors'
             plot_elements = []
+            if hasattr(axs, '__iter__') == False:
+                axs = [axs]
             for ax, descriptor in zip(axs, self.descriptor_methods):
                 plot_elements.append(descriptor.draw_cluster(self.pos, ax))
             return plot_elements
@@ -460,12 +471,14 @@ class AtomicCluster():
         if self.descriptor_methods is not None:
             descriptors = self.descriptor_methods
             fig, axs = plt.subplots(1, len(descriptors) + 1, figsize=(len(descriptors)*4, 2.5))
+            #fig, axs = plt.subplots(2,3, figsize = (12, 8))
+            #axs = axs.flatten()
             axes = np.zeros(len(descriptors) + 1).astype(object)
             axes[0] = self.draw(axs[0], set_color = plot_color)
             for ax, descriptor, i in zip(axs[1:], descriptors, range(len(descriptors))):
                 axes[i + 1] = descriptor.draw_descriptor(self.pos, ax)
 
-            return axes
+            return fig, axes
         
 
 
