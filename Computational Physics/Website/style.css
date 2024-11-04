@@ -1,0 +1,216 @@
+/* This is the CSS file for the website. */
+
+/* Make a setting that is applied to all:*/
+
+*{
+    font-family: 'Arial';
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+}
+
+h1, h2, h3, h4, h5 h6{
+    text-align: center;
+
+}
+
+h1{
+    color: #000000;
+    font-family: 'Arial';
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+p{
+    color: #000000;
+    font-family: 'Arial';
+    font-size: 1.5vw;
+    font-weight: normal;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 2.5%;
+    margin-right: 15%;
+}
+
+a{
+    color: #000000;
+    font-family: 'Arial';
+    font-size: 20px;
+    font-weight: bold;
+
+   
+}
+
+a:hover{
+    color: blue;
+    font-size: 21px;
+}
+
+
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border: 1px solid black;
+}
+
+
+.imgText{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+.header{
+    position: fixed;
+    text-align: right;
+    top: 0;
+    width: 99%;
+}
+
+.footer{
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    width: 99%;
+}
+
+
+.chapter{
+    border: 2px solid black;
+    margin: 10px 10px 10px 10px;
+    background-color: #f1f1f1;
+    padding: 25px;
+}
+
+pre code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}
+
+
+.crossed-out {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.week-title {
+    font-weight: bold;
+    margin-top: 20px;
+}
+.task-list {
+    margin-bottom: 10px;
+}
+
+.linkContainer {
+    position: relative;
+    margin: auto;
+    width: 30%;
+    height: auto;
+    padding: 100px;
+    background: linear-gradient(to top, white, #f1f1f1);
+    border-radius: 25px;
+    margin-top: 25px;
+    flex: auto;
+    transition: 0.5s ease all;
+    align-items: center;
+
+}
+
+.linkContainer img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    mix-blend-mode: multiply;
+    width: auto;
+    height: 70%;
+    border-radius: 25px;
+    border: 0;
+}
+
+
+.linkContainer:hover {
+    transform: translateY(-5%);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    filter: brightness(105%);
+}
+
+.linkContainer:hover .overlay {
+    opacity: 0.69;
+    
+}
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background: linear-gradient(to top, white, darkgray);
+    border-radius: 25px;
+}
+
+.text {
+    color: black;
+    text-decoration:wavy;
+    font-size: 25px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 1;
+}
+
+.overlay .text {
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 1;
+    
+}
+
+
+
+/*Make a flex container with a row layout with 3 items in each row*/
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 3 columns */
+    gap: 10px; /* Adjust spacing between items as desired */
+}

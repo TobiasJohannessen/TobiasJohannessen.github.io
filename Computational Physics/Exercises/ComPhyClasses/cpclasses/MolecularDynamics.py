@@ -1,4 +1,8 @@
-
+import numpy as np
+from scipy.integrate import quad
+from scipy.optimize import fmin
+from matplotlib.colors import to_rgba
+import matplotlib.pyplot as plt
 
 
 #######################################################################
@@ -112,8 +116,8 @@ class MonteCarloSystem(SimulationSystem):
         super().plot(ax,xwidth)
         
         average_V_exact = self.direct_integration()
-        average_V_sampl = self.estimate_from_sample()
-        ax.set_title(f'Ve={average_V_exact:.3f} Vmet-MC={average_V_sampl:.3f}')
+        average_V_sample = self.estimate_from_sample()
+        ax.set_title(f'Ve={average_V_exact:.3f} Vmet-MC={average_V_sample:.3f}')
         ax.text(-1,1,f'kT={self.kT}')
 
 def velocity_verlet_1d(system, N=100):

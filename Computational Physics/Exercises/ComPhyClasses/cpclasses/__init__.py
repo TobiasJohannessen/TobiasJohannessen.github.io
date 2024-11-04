@@ -22,6 +22,6 @@ from .Potentials import *
 from .Periodicity import *
 from .Regression import *
 from .PlotTools import *
-#from .NeuralNetworks import *
+from .NeuralNetworks import *
 
 

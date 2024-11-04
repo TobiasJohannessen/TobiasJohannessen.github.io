@@ -1,4 +1,5 @@
 import os
+import matplotlib
 
 def format_axis(ax, xlabel = 'x', ylabel = 'y', title = None, grid=True, legend=True):
     ax.set_xlabel(xlabel)
@@ -18,13 +19,21 @@ def coordinate_axes(ax, lw = 1):
 
 
 
-def save_plot(fig, filename, **kwargs):
+def save_plot(plot, filename, **kwargs):
 
     current_week = os.getcwd().split('\\')[-1]
-    save_dir = f'../../Weeks/Figures/{current_week}'
+    save_dir = f'../../Website/Weeks/Figures/{current_week}'
     #Make a directory if it doesn't exist:
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
-   
-    fig.savefig(f'{save_dir}\\{filename}', **kwargs)
+    plot.savefig(f'{save_dir}/{filename}', **kwargs)
+    return None
+
+def save_animation(animation, filename, **kwargs):
+    current_week = os.getcwd().split('\\')[-1]
+    save_dir = f'../../Website/Weeks/Figures/{current_week}'
+    #Make a directory if it doesn't exist:
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    animation.save(f'{save_dir}/{filename}', **kwargs)
     return None

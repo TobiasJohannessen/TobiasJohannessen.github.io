@@ -300,8 +300,10 @@ class Potential():
             #step_method_2 = (np.random.uniform(self.x_min, self.x_max) - current_point) * uniform 
             
             new_point = current_point + step_method_1# + step_method_2
-            new_energy = self.V(np.array([*new_point, *static_points]))
-            current_energy = self.V(np.array([*current_point, *static_points]))
+            new_array = np.concatenate([new_point, *static_points]).reshape(-1, 2)
+            current_array = np.concatenate([current_point, *static_points]).reshape(-1, 2)
+            new_energy = self.V(new_array)
+            current_energy = self.V(current_array)
             P_frac = ( np.exp(-new_energy/(self.kT)) ) / ( np.exp(-current_energy/(self.kT)) )
             A = min(1, P_frac)
             if A > np.random.uniform(0,1):
