@@ -1,0 +1,138 @@
+
+
+.controls {
+    margin-top: 15px;
+}
+.controls button {
+    padding: 5px 10px;
+    font-size: 16px;
+}
+.scaling-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0 0 0 0;
+    padding: 0;
+    
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 784px; /* Fixed width for scaling */
+    max-height: 688px; /* Fixed height for scaling */
+    transform-origin: top center;
+    padding: 0;
+    margin: 0;
+}
+
+/* Set scaling based on viewport width */
+@media (max-width: 1200px) {
+    .container {
+        transform: scale(0.8);
+    }
+}
+@media (max-width: 1000px) {
+    .container {
+        transform: scale(0.7);
+    }
+}
+@media (max-width: 800px) {
+    .container {
+        transform: scale(0.6);
+    }
+}
+@media (max-width: 600px) {
+    .container {
+        transform: scale(0.5);
+    }
+}  
+
+.canvascontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(15%);
+}
+
+canvas {
+    border: 5px solid black;
+    display: block;
+    margin-right: 5px;
+    position: inherit;
+    
+    
+}
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+}
+    
+#sidebar input {
+    margin: 5px 0;
+}
+
+
+.slidecontainer {
+    width: 150%;
+    transform: translateX(25%);
+    
+}
+
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 50%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    align-items: center;
+    }
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #000000; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #000000; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+
+
+.infoBox > .term {
+    display: none;
+    position: absolute;
+    bottom: calc(50% + 100px);
+    padding: 2px;
+    border: solid;
+    border-width: 1px;
+}
+  
+.infoBox:hover > .term {
+display: block;
+}
+

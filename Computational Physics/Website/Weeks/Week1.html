@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1</title>
+    <link rel="stylesheet" href="../../style.css">
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+      </script>
+      <script type="text/javascript"
+        src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
+<body>
+    <h1>Week 1</h1>
+    <p> Here are some thoughts on the exercises from Week 1:</p>
+
+    <div>
+        <h1> Random Walkers</h1>
+        <p>Something something, random walkers</p>
+
+        <img src="Figures/Week 1/random_walkers.gif" alt="Random Walkers" style="width: 30%;">
+        
+
+    </div>
+    
+    
+
+    <div>
+        <h1> Boxes on a Ramp</h1>
+
+        <a href="Figures/Week 1/Slope.html" style="position: relative;">Python Code</a><br>
+        <p>Something something, solving differential equations</p>
+        
+            
+
+        <img src="Figures/Week 1/linear_vs_quadratic_vs_brachistochrone.gif" alt="lin_quad_brach" style="width: 30%;">
+
+        <p>Something something, cycloid goes boom</p>
+        
+
+    
+        <img src="Figures/Week 1/boxes.gif" alt="Boxes" style="width: 30%;">
+    </div>
+    
+    <div class="header">    
+        <a href="../CompPhy.html" style="position: relative;">Back to Computational Physics</a><br>
+        
+        <div id="weekLinks">
+            
+        </div>
+        
+        
+        
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        fetch('Week 1/Slope.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('codeBlock').innerText = data;
+            })
+            .catch(error => console.error('Error loading Python code:', error));
+    </script>
+    
+</body>

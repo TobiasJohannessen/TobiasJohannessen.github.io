@@ -4,6 +4,7 @@ T = 200 #Kelvin
 import numpy as np
 #import pytorch
 import torch
+from scipy.spatial.distance import pdist
     
 
 
@@ -56,7 +57,7 @@ class Potential():
     def Q(self):
         if self._Q is None:
 
-            integrand = lambda x: np.exp(-self.V(x)/(self.kT))
+            integrand = lambda x: np.exp(-self.energy(x)/(self.kT))
             self._Q = quad(integrand, self.x_min, self.x_max)[0]
         return self._Q 
     
@@ -133,7 +134,7 @@ class Potential():
         self.mcmc = None
 
     def P(self, x):
-        P = np.exp(-self.V(x)/(self.kT))/self.Q
+        P = np.exp(-self.energy(x)/(self.kT))/self.Q
         return P
     
 
@@ -148,7 +149,7 @@ class Potential():
     def plot_V(self, ax, color = 'C0'):
 
         x = np.linspace(self.x_min, self.x_max, 1000)
-        ax.plot(x, self.V(x), label = f'{self.type} P(x)', color = color)
+        ax.plot(x, self.energy(x), label = f'{self.type} P(x)', color = color)
     
     def plot_P(self, ax, color = 'C0'):
         x_for_hist = np.linspace(self.x_min, self.x_max, self._N_bins)
@@ -189,7 +190,7 @@ class Potential():
     def direct_integration_general(self, V = None):
 
         if V is None:
-            V = self.V
+            V = self.energy
 
         integrand = lambda x: V(x)*np.exp(-V(x)/(self.kT))
         exp_val = 1/self.Q * quad(integrand, self.x_min, self.x_max)[0]
@@ -221,10 +222,10 @@ class Potential():
         #Method 2 to find: C_V = d<E>/dT 
         #Use C_V = -1/kT^2 * (<E^2> - <E>^2)
         
-        integrand1 = lambda x: self.V(x)*np.exp(-self.V(x)/(self.kT))
+        integrand1 = lambda x: self.energy(x)*np.exp(-self.energy(x)/(self.kT))
         exp_val1 = 1/self.Q * quad(integrand1, self.x_min, self.x_max)[0]
 
-        integrand2 = lambda x: self.V(x)**2*np.exp(-self.V(x)/(self.kT))
+        integrand2 = lambda x: self.energy(x)**2*np.exp(-self.energy(x)/(self.kT))
         exp_val2 = 1/self.Q * quad(integrand2, self.x_min, self.x_max)[0]
 
         C_V = 1/self.kT**2 * (exp_val2 - exp_val1**2)
@@ -237,7 +238,7 @@ class Potential():
         #Use Monte Carlo sampling to calculate the expectation value
 
         self.sample_n_MC(N)
-        exp_val = 1/len(self.x_is) * np.sum([self.V(x_i) for x_i in self.x_is])
+        exp_val = 1/len(self.x_is) * np.sum([self.energy(x_i) for x_i in self.x_is])
 
         return exp_val
     
@@ -299,8 +300,8 @@ class Potential():
             #step_method_2 = (np.random.uniform(self.x_min, self.x_max) - current_point) * uniform 
             
             new_point = current_point + step_method_1# + step_method_2
-            new_energy = self.V(np.array([*new_point, *static_points]))
-            current_energy = self.V(np.array([*current_point, *static_points]))
+            new_energy = self.energy(np.array([*new_point, *static_points]))
+            current_energy = self.energy(np.array([*current_point, *static_points]))
             P_frac = ( np.exp(-new_energy/(self.kT)) ) / ( np.exp(-current_energy/(self.kT)) )
             A = min(1, P_frac)
             if A > np.random.uniform(0,1):
@@ -308,7 +309,7 @@ class Potential():
                 accepted_points += 1
             mcmc_chain.append(current_point)
             if break_point is not None:
-                if self.V(current_point) < break_point:
+                if self.energy(current_point) < break_point:
                     N = len(mcmc_chain)
                     break
             
@@ -349,7 +350,7 @@ class Potential():
             r = rs_new[-1]
             rs += [r]
         
-        V_rs = [self.V(r) for r in rs]
+        V_rs = [self.energy(r) for r in rs]
 
         self.V_avg_MD = np.mean(V_rs)
 
@@ -371,7 +372,7 @@ class Potential():
             F_norm = np.linalg.norm(F)
             F_direction = F/F_norm
             a0 = 1e-3
-            energy = lambda alpha: self.V(r + alpha*F_direction)
+            energy = lambda alpha: self.energy(r + alpha*F_direction)
             alpha = minimize(energy, a0).x
             r_new = r + alpha*F_direction
             if energy(r_new)/energy(r) < tol:
@@ -454,7 +455,7 @@ class CustomPotential(Potential):
 
 
     def E_pot_numeric(self, x):
-        E_pot_0 = self.V(self.x0)
+        E_pot_0 = self.energy(self.x0)
         integrand = lambda x_: self.force(x_)
         E_pot_1 = quad(integrand, self.x0, x)[0]
         return E_pot_0 - E_pot_1
