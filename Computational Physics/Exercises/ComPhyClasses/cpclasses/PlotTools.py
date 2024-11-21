@@ -19,14 +19,14 @@ def coordinate_axes(ax, lw = 1):
 
 
 
-def save_plot(plot, filename, **kwargs):
+def save_plot(plot, filename, bbox_inches = 'tight', **kwargs):
 
     current_week = os.getcwd().split('\\')[-1]
     save_dir = f'../../Website/Weeks/Figures/{current_week}'
     #Make a directory if it doesn't exist:
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
-    plot.savefig(f'{save_dir}/{filename}', **kwargs)
+    plot.savefig(f'{save_dir}/{filename}', bbox_inches = bbox_inches, **kwargs)
     return None
 
 def save_animation(animation, filename, **kwargs):
