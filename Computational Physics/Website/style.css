@@ -259,12 +259,16 @@ button{
     background-color: rgba(0,0,0,0.8); /* Black with opacity */
 }
 
+
 /* Modal Content (image) */
 .modal-content {
     margin: auto;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80%; 
     max-width: 700px;
+    height: 80vh; /* Adjust height as needed */
 }
 
 /* Caption of Modal Image */
