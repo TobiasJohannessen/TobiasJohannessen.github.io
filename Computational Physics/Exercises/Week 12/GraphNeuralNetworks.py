@@ -39,7 +39,7 @@ def random_graph(num_nodes, cutoff = 2.5, box_size=10):
 
 
 
-def draw_graph(graph, ax, show_labels=True):
+def draw_graph(graph, ax, show_labels=True, color_style='default', feature_range =[0,10]):
     # Get or generate positions
     if graph.pos is not None:
         pos = graph.pos
@@ -59,12 +59,20 @@ def draw_graph(graph, ax, show_labels=True):
     # Edge and node data
     edge_index = graph.edge_index
 
+    if color_style == 'default':
+        colors = [f'C{int(np.abs((np.round(number))))}' for number in numbers]
+         # Plot nodes
+        ax.scatter(pos[:, 0], pos[:, 1], zorder=2, s=1000, edgecolors='black', c=colors)
+    elif color_style == 'gradient':
+        norm = plt.Normalize(vmin=feature_range[0], vmax=feature_range[1])
+    
+        ax.scatter(pos[:, 0], pos[:, 1], zorder=2, s=1000, edgecolors='black', c=numbers, cmap='jet', norm=norm)
 
-    colors = [f'C{int(np.abs((np.round(number))))}' for number in numbers]
+    else:
+        raise ValueError('Unknown color style')
 
 
-    # Plot nodes
-    ax.scatter(pos[:, 0], pos[:, 1], zorder=2, s=1000, edgecolors='black', c=colors)
+   
 
     # Plot edges
     for src, dst in edge_index.T:

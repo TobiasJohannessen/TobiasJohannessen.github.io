@@ -3,25 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+      </script>
+      <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 </head>
 <body>
     <h1>Week 12</h1>
     <p> Here are some thoughts on the exercises from Week 12:</p>
+    <p> This week's exercises are all about Graph Neural Networks and how they work.</p>
 
-    <div></div>
+    <div class="chapter">
+        <br>    
+        <h1 style="font-size: xx-large;">Graph Networks </h1>
+        <br>
+
+        <p>Graph Neural Networks are a type of neural network that can be used to represent and understand data that is in the form of a graph. 
+            This is a very powerful tool, as many systems can be represented as graphs, such as social networks, molecular structures, and many more.
+            We describe a graph by providing a set of nodes and edges, where the edges represent the connections between the nodes. 
+            It is possible for systems to have edges only in <strong>one direction</strong>, <strong>both directions</strong> and even <strong>self-connections</strong> (self-loops). 
+
+        </p>
+
+        
+
+        <img src="Figures/Week 12/random_graph.png" alt="" style="width: 40%; position: abs;">
+        <img src="Figures/Week 12/random_graph, shortened.png" alt="" style="width: 40%; position: abs;">
+        <p class="imgText">Figure 1: Four graphs. The two graphs on top are equivalent and the two on bottom are equivalent.</p>
+
+        <br>
+
+        <p>There is only a certain number of ways to arrange graphs, and we can easily quantify this. 
+            By using the adjacency matrix $A$, whose element $A_{ab}$ is the connection from node a to node b, we have a way to distinguish between graphs that is independent of the positions of each node.
+        The adjacency matrix is of course diagonal for graphs that only have bi-directional edges</p>
+        
+        <img src="Figures/Week 12/unique_graphs.png" alt="Unique Graphs" style="width: 40%; position: abs;">
+        <p class="imgText">Figure 2: All possible graphs made from five nodes.</p>
+
+    </div>
+
+    <div class="chapter">
+        <h1 style="font-size: xx-large;">Aggregation</h1>
+
+        To understand how to use Graph Neural Networks, we need to understand how they work. Each node has some sort of feature given either by a vector or a scalar.
+
+        <img src="Figures/Week 12/Graph_with_attributes.png" alt="Graph_with_attributes" style="width: 40%; position: abs;">
+        <p class="imgText">Figure 3: A graph with one feature per node. The float within the node is the value of the node, and the small number in the box is the index of the node.</p>
+
+        
+        <img src="Figures/Week 12/LargeGraphMaxPooling.gif">
+        <p class="imgText">How the MaxAggregation sends information/passes messages through the system.</p>
     </div>
     
-    <div class="header">    
-        <a href="../CompPhy.html" style="position: relative;">Back to Computational Physics</a>
-        
-
-        <div id="weekLinks">
-            
-        </div>
-        
-        
-        
-    </div>
+    
 
     <script src="script.js"></script>
     

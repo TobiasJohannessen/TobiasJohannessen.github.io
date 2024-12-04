@@ -23,6 +23,35 @@ const regex = /Week(\d+).html/; // Match 'Week' followed by a number
 const match = fileName.match(regex);
 const currentNumber = match ? parseInt(match[1]) : -1;
 
+
+
+//Generate a header div with a link to the main page
+//<div class="header">
+//<div id="header">
+//</div>
+// <div id="weekLinks"></div>
+//</div>
+//</div>
+
+var headerDiv = document.createElement('div');
+headerDiv.setAttribute('class', 'header');
+document.body.appendChild(headerDiv);
+
+var header = document.createElement('div');
+header.setAttribute('id', 'header');
+headerDiv.appendChild(header);
+
+var weekLinks = document.createElement('div');
+weekLinks.setAttribute('id', 'weekLinks');
+headerDiv.appendChild(weekLinks);
+
+
+var header = document.createElement('a');
+header.setAttribute('href', '../CompPhy.html');
+header.innerHTML = 'Back to Computational Physics';
+header.style.position = 'relative';
+document.getElementById('header').appendChild(header);
+
 // Generate 14 week links dynamically
 for (let i = 0; i <= 15; i++) {
     
@@ -80,23 +109,69 @@ if (currentNumber === -1) {
 
 
 
-// Enlarge photos on click:
 
-img = document.getElementsByClassName('.img')[0];
-// Function to increase image size
-function enlargeImg() {
-    // Set image size to 1.5 times original
-    img.style.transform = "scale(1.5)";
-    // Animation effect
-    img.style.transition = "transform 0.25s ease";
-    // Make everything else darker
-    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-}
-// Function to reset image size
-function resetImg() {
-    // Set image size to original
-    img.style.transform = "scale(1)";
-    img.style.transition = "transform 0.25s ease";
-    // Reset background color
-    document.body.style.backgroundColor = "white";
-}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="caption" id="caption"></div>
+        <span class="nav-button prev">&#10094;</span>
+        <span class="nav-button next">&#10095;</span>
+    `;
+    document.body.appendChild(modal);
+
+    const modalImg = document.getElementById('modalImage');
+    const captionText = document.getElementById('caption');
+    const closeModal = modal.querySelector('.close');
+    const prevButton = modal.querySelector('.prev');
+    const nextButton = modal.querySelector('.next');
+
+    const images = Array.from(document.querySelectorAll('img'));
+    let currentIndex = 0;
+
+    const showImage = (index) => {
+        currentIndex = (index + images.length) % images.length; // Update currentIndex correctly
+        modalImg.src = images[currentIndex].src;
+        //captionText.textContent = images[currentIndex].alt || 'Image';
+    };
+
+    images.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            modal.style.display = 'block';
+            showImage(index);
+        });
+    });
+
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    prevButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showImage(currentIndex - 1);
+    });
+
+    nextButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showImage(currentIndex + 1);
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'block') {
+            if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+            if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+            if (e.key === 'Escape') modal.style.display = 'none';
+        }
+    });
+});
+
