@@ -304,8 +304,8 @@ class AtomicCluster(StaticAtomicCluster):
         return self.velocities.copy()
     
     def energy_title(self):
-        return f'Ek={self.kinetic_energy:.2g} ' +\
-               f'Ep={self.potential_energy:.2g} ' + \
+        return f'Ek={self.kinetic_energy:.2g} \n' +\
+               f'Ep={self.potential_energy:.2g} \n' + \
                f'E={self.potential_energy + self.kinetic_energy:.2g}'
 
 
