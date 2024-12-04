@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     images.forEach((img, index) => {
         img.addEventListener('click', () => {
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
             showImage(index);
         });
     });
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('keydown', (e) => {
-        if (modal.style.display === 'block') {
+        if (modal.style.display === 'flex') {
             if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
             if (e.key === 'ArrowRight') showImage(currentIndex + 1);
             if (e.key === 'Escape') modal.style.display = 'none';
