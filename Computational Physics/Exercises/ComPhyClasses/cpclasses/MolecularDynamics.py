@@ -3,6 +3,8 @@ from scipy.integrate import quad
 from scipy.optimize import fmin
 from matplotlib.colors import to_rgba
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
+
 
 
 #######################################################################
@@ -95,11 +97,19 @@ class MonteCarloSystem(SimulationSystem):
         denominator = len(self.sample)
         return numerator / denominator
         
-    def setup_sample(self):
-        
+  
+
+    def sample_mcmc(self, N = None, new = True, break_point = None):
+        if N is None:
+            N = self.sample_size
+
+        if new:
+            self.sample = np.array([self.x])
+            
+
+        x = self.sample[-1]
         xs = []
-        x = self.x
-        for e in range(self.sample_size):
+        for e in range(N):
             xs.append(x)
             if self.transition_method == 'delta':
                 x_new = x + self.delta*np.random.randn()
@@ -108,10 +118,13 @@ class MonteCarloSystem(SimulationSystem):
             de = self.calc.potential_energy(x_new) - self.calc.potential_energy(x)
             if np.random.rand() < np.exp(-de/self.kT):
                 x = x_new
+
+
+
+            if break_point is not None and self.calc.potential_energy(x) < break_point:
+                break
         self.sample = np.array(xs)
-        
-        print('Sample size:',len(self.sample))
-        
+            
     def plot(self,ax,xwidth=0.1):
         super().plot(ax,xwidth)
         
@@ -188,6 +201,42 @@ def relax(cluster,steps=100, tol = 0.05):
         cluster.set_positions(cluster.get_positions() + alpha_opt * p)
 
 
+
+def basin_hopping(cluster, N = 100, relaxation_steps = 100, delta = 1, break_point = None):
+
+    sample = [cluster.get_positions()]
+    test = cluster.copy()
+    best_positions = test.get_positions()
+    best_energy = cluster.calc.potential_energy(best_positions)
+
+    for i in range(N):
+        #Take a random step, then relax
+        x = sample[-1]
+        step = delta*np.random.randn(*x.shape)
+        step = np.where(cluster.filter,0,step)
+        x_new = x + step
+        test.set_positions(x_new)
+        relax(test,steps=100)
+        x_new = test.get_positions()
+
+
+        de = cluster.calc.energy(x_new) - cluster.calc.energy(x)
+        if np.random.rand() < np.exp(-de/cluster.kT):
+            x = x_new
+
+        #If we have a new minimum, update the best positions
+        if cluster.calc.potential_energy(x) < best_energy:
+            best_energy = cluster.calc.potential_energy(x)
+            best_positions = x
+        sample.append(x)
+        if break_point is not None and cluster.calc.potential_energy(x) < break_point:
+            break
+
+    cluster.set_positions(best_positions)
+    return sample
+
+
+
 ############################################
 # Class for atomic clusters that do not move dynamically
 ############################################
@@ -210,7 +259,7 @@ class StaticAtomicCluster():
             assert len(static) == self.N, 'static must be N long'
             self.static = static
         else:
-            self.static = [False for _ in range(self.N)]
+            self.static = np.array([False for _ in range(self.N)])
 
         self.periodicity = periodicity
         if periodicity == [0, 0]:
@@ -251,30 +300,66 @@ class StaticAtomicCluster():
         return self.descriptor_method.descriptor(self.pos)
 
     def energy_title(self):
-        return f'Ep={self.potential_energy:.2g}'
+        return r'$E_{p} = $' + f'{self.potential_energy:.2g}'
+
     
-    def draw(self,ax,size=100,alpha=1,force_draw=False,edge=False,color='C0',
-             energy_title=True):
-        if self.plot_artists.get(ax,None) is None or force_draw or edge:
+
+
+    def draw(self, ax, radius=None, size=100, alpha=1, force_draw=False, edge=False, color='C0',
+            energy_title=True, full_energy_title=False, center = False):
+
+        if center:
+            #Find the positions of the static atoms
+            static_pos = self.pos[self.static]
+            self.pos = self.pos - np.mean(static_pos, axis=0)
+
+        if radius is not None:
+            # Convert radius in data units to size in scatter units
+            x_min, x_max = ax.get_xlim()
+            y_min, y_max = ax.get_ylim()
+
+            # Calculate data-to-scatter scaling factor
+            x_range = x_max - x_min
+            y_range = y_max - y_min
+
+            fig_width, fig_height = ax.figure.get_size_inches()
+            ax_width = fig_width * ax.get_position().width
+            ax_height = fig_height * ax.get_position().height
+
+            # Determine average data unit per screen unit (square root for isotropic scaling)
+            x_scale = ax_width / x_range
+            y_scale = ax_height / y_range
+            scale = (x_scale + y_scale) / 2  # isotropic scaling
+            
+            # Convert radius to area (scatter size is proportional to marker area)
+            size = (2 * radius * scale) ** 2  # scatter size is proportional to the area
+
+        if self.plot_artists.get(ax, None) is None or force_draw or edge:
             colors = ['C1' if s else color for s in self.static]
             if self.labels is not None:
                 colors = [f'C{label}' for label in self.labels]
-            facecolors = [to_rgba(c,alpha) for c in colors]
+            facecolors = [to_rgba(c, alpha) for c in colors]
             if edge:
-                edgecolors = (0,0,0,1)
-                self.plot_artists[ax] = ax.scatter(self.pos[:,0],self.pos[:,1],
-                                               s=size,facecolors=facecolors,
-                                                  edgecolors=edgecolors,
-                                                  linewidth=2)
+                edgecolors = (0, 0, 0, 1)
+                self.plot_artists[ax] = ax.scatter(
+                    self.pos[:, 0], self.pos[:, 1],
+                    s=size, facecolors=facecolors,
+                    edgecolors=edgecolors, linewidth=2
+                )
             else:
-                edgecolors = (0,0,0,0.5)
-                self.plot_artists[ax] = ax.scatter(self.pos[:,0],self.pos[:,1],
-                                                   s=size,facecolors=facecolors,
-                                                  edgecolors=edgecolors,)
+                edgecolors = (0, 0, 0, 0.5)
+                self.plot_artists[ax] = ax.scatter(
+                    self.pos[:, 0], self.pos[:, 1],
+                    s=size, facecolors=facecolors,
+                    edgecolors=edgecolors
+                )
         else:
             self.plot_artists[ax].set_offsets(self.pos)
         if energy_title:
             ax.set_title(self.energy_title())
+        if full_energy_title:
+            ax.set_title(self.full_energy_title())
+
 
     def draw_descriptor(self,ax):
         self.descriptor_method.draw(self.pos,ax)
@@ -303,10 +388,10 @@ class AtomicCluster(StaticAtomicCluster):
     def get_velocities(self):
         return self.velocities.copy()
     
-    def energy_title(self):
-        return f'Ek={self.kinetic_energy:.2g} \n' +\
-               f'Ep={self.potential_energy:.2g} \n' + \
-               f'E={self.potential_energy + self.kinetic_energy:.2g}'
+    def full_energy_title(self):
+        return r'$E_{k} = $' + f'{self.kinetic_energy:.2g} \n' +\
+               r'$E_{p} = $' + f'{self.potential_energy:.2g} \n' + \
+               r'$E = $' + f'{self.potential_energy + self.kinetic_energy:.2g}'
 
 
 def velocity_verlet(cluster, N = 100):

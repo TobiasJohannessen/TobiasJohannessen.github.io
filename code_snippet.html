@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Snippet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+<body>
+    <h1>Python Code Snippet</h1>
+    <pre><code class="language-python">
+import numpy as np
+import matplotlib.pyplot as plt
+
+def rosenbrock(x, y):
+    return (1 - x)**2 + 100 * (y - x**2)**2
+
+x = np.arange(-2, 2, 0.01)
+y = np.arange(-1, 3, 0.01)
+X, Y = np.meshgrid(x, y)
+Z = rosenbrock(X, Y)
+
+plt.contour(X, Y, Z, 50, cmap='jet')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Rosenbrock Function Contour Plot')
+plt.show()
+</code></pre>
+</body>
+</html>

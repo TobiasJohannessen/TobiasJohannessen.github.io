@@ -134,7 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
 
     const showImage = (index) => {
-        currentIndex = (index + images.length) % images.length; // Update currentIndex correctly
+        // Ensure wrapping and update currentIndex
+        currentIndex = (index + images.length) % images.length;
         modalImg.src = images[currentIndex].src;
         //captionText.textContent = images[currentIndex].alt || 'Image';
     };
@@ -152,12 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     prevButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        showImage(currentIndex - 1);
+        currentIndex = (currentIndex - 1 + images.length) % images.length; // Wrap index
+        showImage(currentIndex);
     });
 
     nextButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        showImage(currentIndex + 1);
+        currentIndex = (currentIndex + 1) % images.length; // Wrap index
+        showImage(currentIndex);
     });
 
     window.addEventListener('click', (e) => {
@@ -168,10 +171,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('keydown', (e) => {
         if (modal.style.display === 'flex') {
-            if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
-            if (e.key === 'ArrowRight') showImage(currentIndex + 1);
-            if (e.key === 'Escape') modal.style.display = 'none';
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault(); // Prevent default browser behavior
+                currentIndex = (currentIndex - 1 + images.length) % images.length; // Wrap index
+                showImage(currentIndex);
+            }
+            if (e.key === 'ArrowRight') {
+                e.preventDefault(); // Prevent default browser behavior
+                currentIndex = (currentIndex + 1) % images.length; // Wrap index
+                showImage(currentIndex);
+            }
+            if (e.key === 'Escape') {
+                modal.style.display = 'none';
+            }
         }
     });
+
+
 });
 

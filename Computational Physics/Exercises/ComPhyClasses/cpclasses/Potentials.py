@@ -434,7 +434,7 @@ class HarmonicOscillator(Potential):
     def V(self, x):
         return 0.5*self.k*(x-self.x0)**2
 
-class CustomPotential(Potential):
+class HarmExpPotential(Potential):
 
     def __init__(self, k = 1, x0 = 0, x1 = 1, A = 1, B = 1, x_range=[-2,2], kT = 0.15, N_bins = 40):
 
@@ -482,6 +482,9 @@ class LennardJones(Potential):
 
     def energy(self, positions): 
         return np.sum(self._V(pdist(positions)))
+
+    def potential_energy(self, positions):
+        return self.energy(positions)
 
     def force(self, pos):
         diff = pos[np.newaxis, :, :] - pos[:, np.newaxis, :]
@@ -572,3 +575,32 @@ class LennardJonesGaussTorch(LennardJonesGauss):
         V = r**(-12) - 2 * r**(-6) \
             - self.eps * torch.exp(-((r - self.r0)**2)/(2*self.sigma_squared))
         return V
+
+
+
+class CustomPotential(Potential):
+
+    def __init__(self, V, x_range=[-2,2], kT = 0.15, N_bins = 40, **kwargs):
+        self.V = V
+        self.type = 'Custom'
+        super().__init__(type = self.type, x_range = x_range, kT = kT, N_bins=N_bins, **kwargs)
+
+    def force(self, x):
+        return -self.k*(x-self.x0) + 2*self.A/self.B**2 * (x-self.x1) * np.exp(-((x-self.x1)/self.B)**2)
+
+    def potential_energy(self, x):
+        return self.V(x)
+
+    def potential(self,x):
+        return self.V(x)
+
+    def energy(self, x):
+        return self.V(x)
+
+
+
+    def E_pot_numeric(self, x):
+        E_pot_0 = self.energy(self.x0)
+        integrand = lambda x_: self.force(x_)
+        E_pot_1 = quad(integrand, self.x0, x)[0]
+        return E_pot_0 - E_pot_1

@@ -6,34 +6,57 @@ k_b = 1#.38e-23 #J/K
 T = 200 #Kelvin
 
 
-# class LennardJones():
-
-#     def __init__(self, eps0 = 5, sigma = 2**(-1/6)):
-#         self.eps0 = eps0
-#         self.sigma = sigma
-
-#     def _V(self, distance):
-#         V = 4*self.eps0*((self.sigma/distance)**12 - (self.sigma/distance)**6)
-#         return V
-
-#     def _dV_dr(self, r):
-#         dV_dr = 4*self.eps0*(-12*(self.sigma/r)**13 + 6*(self.sigma/r)**7)
-#         return dV_dr
-
-#     def energy(self, positions): 
-#         return np.sum(self._V(pdist(positions)))
-
-#     def forces(self, pos):
-#         diff = pos[np.newaxis, :, :] - pos[:, np.newaxis, :]
-#         r = np.sqrt(np.sum(diff**2, axis=-1))
-#         np.fill_diagonal(r, np.inf)
-#         force_magnitude = self._dV_dr(r)
-#         forces = np.sum(force_magnitude[..., np.newaxis] * diff / \
-#                         r[..., np.newaxis], axis=1)
-#         return forces
+class MonteCarlo_2:
 
 
-class Potential():
+    def __init__(self, *args, transition_method='delta', sample_size=1000, delta=0.1, **kwargs):
+        super().__init__(*args, **kwargs)
+        assert transition_method in ['delta','uniform'], 'Unknown transition method'
+        self.transition_method = transition_method
+        self.delta = delta
+    
+    def direct_integration(self, property=None):
+        if property is None:
+            property = self.calc.potential_energy
+        numerator_inner = lambda x: property(x) * np.exp(-self.calc.potential_energy(x) / self.kT)
+        denominator_inner = lambda x: np.exp(-self.calc.potential_energy(x) / self.kT)
+        numerator = quad(numerator_inner, self.xmin, self.xmax)[0] 
+        denominator = quad(denominator_inner, self.xmin, self.xmax)[0] 
+        return numerator / denominator
+    
+    def estimate_from_sample(self, property=None):
+        if property is None:
+            property = self.calc.potential_energy
+        if self.sample is None:
+            self.setup_sample()
+        numerator = np.sum(property(self.sample))
+        denominator = len(self.sample)
+        return numerator / denominator
+        
+    def setup_sample(self):
+        
+        xs = []
+        x = self.x
+        for e in range(self.sample_size):
+            xs.append(x)
+            if self.transition_method == 'delta':
+                x_new = x + self.delta*np.random.randn()
+            else:
+                x_new = self.xmin + (self.xmax-self.xmin)*np.random.rand()
+            de = self.calc.potential_energy(x_new) - self.calc.potential_energy(x)
+            if np.random.rand() < np.exp(-de/self.kT):
+                x = x_new
+        self.sample = np.array(xs)
+        
+        print('Sample size:',len(self.sample))
+        
+    def plot(self,ax,xwidth=0.1):
+        super().plot(ax,xwidth)
+        
+        average_V_exact = self.direct_integration()
+        average_V_sample = self.estimate_from_sample()
+        ax.set_title(f'Ve={average_V_exact:.3f} Vmet-MC={average_V_sample:.3f}')
+        ax.text(-1,1,f'kT={self.kT}')
 
     def __init__(self, V = 0, kT = 1, x_range = [-2,2], type = None, N_bins = 40, delta_x = 0.1, method = 'Random Walk'):
         self.V = 0
@@ -234,9 +257,134 @@ class Potential():
         
 
 
-
-
+def line_search(cluster,steps=100, tol = 0.05):
     
+    test = cluster.copy()
+    def energy_of_alpha(alpha,p):
+        test.set_positions(cluster.get_positions() + alpha * p)
+        return test.potential_energy
+    
+    for i in range(steps):
+        f = cluster.forces()
+        fnorm = np.linalg.norm(f)
+        if fnorm < tol:
+            break
+        p = f/fnorm
+        
+        alpha_opt = fmin(lambda alpha: energy_of_alpha(alpha,p), 0.1, disp=False)
+            
+        cluster.set_positions(cluster.get_positions() + alpha_opt * p)
+
+
+
+class ParticleSwarm():
+
+    def __init__(self, cluster, num_particles, search_space, w = 1, c1 = 1, c2 = 1):
+        self.cluster = cluster
+        self.calc = cluster.calc
+        self.inertia = w
+        self.cognitive = c1
+        self.social = c2
+
+        self.positions = self.create_particles(num_particles, search_space)
+        self.velocities = np.zeros((num_particles, 2))
+
+
+        self.pbest_positions = self.positions.copy()
+        self.pbest_values = self.evaluate_all(self.pbest_positions)
+
+        gbest = np.argmin(self.pbest_values)
+
+        self.gbest_position = self.positions[gbest]
+        self.gbest_value = self.pbest_values[gbest]
+
+
+        self.plot_artists = {}
+
+
+    def create_particles(self,num_particles, search_space):
+        # Unpack the search space boundaries
+        (x_min, x_max), (y_min, y_max) = search_space
+
+        # Generate random positions within the given boundaries
+        x_positions = np.random.uniform(x_min, x_max, num_particles)
+        y_positions = np.random.uniform(y_min, y_max, num_particles)
+
+        # Combine x and y coordinates
+        particles = np.array(list(zip(x_positions, y_positions)))
+
+        return particles
+
+    def plot_particles(self, ax, force_draw = False):
+    
+        # Extract x and y coordinates from particles
+        
+        pos = self.positions
+        colors = [f'C{i}' for i in range(len(pos))]
+
+
+        if self.plot_artists.get(ax, None) is None:
+            self.plot_artists[ax] = ax.scatter(pos[:,0], pos[:,1], marker='o',c = colors, alpha = 0.5)
+            self.plot_artists['gbest'] = ax.scatter(self.gbest_position[0], self.gbest_position[1], label='Global Best', marker='x', c='aqua')
+
+        else:
+            self.plot_artists[ax].set_offsets(pos)
+            self.plot_artists['gbest'].set_offsets(self.gbest_position)
+
+        # Set labels and title
+        ax.set_xlabel('X coordinate')
+        ax.set_ylabel('Y coordinate')
+        ax.set_title('Particle Swarm Optimization')
+        ax.legend(loc='upper right')
+
+
+
+    def evaluate_all(self, positions):
+        return np.array([self.evaluate(p) for p in positions])
+    
+    def evaluate(self, particle):
+        cluster_positions = self.cluster.get_positions()
+        particle_position = particle
+
+        positions = np.array([particle_position, *cluster_positions])
+
+        # Calculate the energy of the particle at the given position
+        energy = self.calc.energy(positions)
+        return energy
+
+
+    def propagate(self):
+        first_term = self.inertia * self.velocities.copy()
+        second_term = self.cognitive * np.random.rand() * (self.pbest_positions - self.positions)
+        third_term = self.social * np.random.rand() * (self.gbest_position - self.positions)
+        self.velocities = first_term + second_term + third_term
+
+        self.positions += self.velocities
+        return self.positions, self.velocities
+
+    def update(self):
+        # Evaluate all particles
+        values = self.evaluate_all(self.positions)
+        if np.min(values) < self.gbest_value:
+            self.gbest_value = np.min(values)
+            self.gbest_position = self.positions[np.argmin(values)].copy()
+
+        # Update personal bests
+        mask = values < self.pbest_values
+        self.pbest_values[mask] = values[mask]
+        self.pbest_positions[mask] = self.positions[mask]
+
+
+    def run(self, num_iterations):
+        for i in range(num_iterations):
+            self.propagate()
+            self.update()
+            print(f'Iteration {i+1}/{num_iterations} - Best value: {self.gbest_value} - Best position: {self.gbest_position}')
+
+
+        
+
+
     
 
 

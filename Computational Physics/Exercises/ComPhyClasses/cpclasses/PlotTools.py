@@ -1,5 +1,7 @@
 import os
 import matplotlib
+from matplotlib.animation import FuncAnimation
+
 
 def format_axis(ax, xlabel = 'x', ylabel = 'y', title = None, grid=True, legend=True):
     ax.set_xlabel(xlabel)
