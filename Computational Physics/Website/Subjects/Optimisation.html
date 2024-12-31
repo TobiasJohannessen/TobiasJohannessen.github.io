@@ -13,40 +13,220 @@
     </script>
 </head>
 <body>
-    <h1>Optimisation</h1>
-    <p> Here are some thoughts on Optimisation:
+    <h1 class="headline">Optimisation</h1>
+    <h1 class="subHeadline">General Optimisation</h1>
+    <p> Let's look at the different methods of optimization we have worked with in the course:
+    <br>
+    We have worked with Metropolis Monte Carlo search, Random Structure Search, Basin Hopping, Particle Swarm Optimization, Gradient-Based Local Optimization, and Line Search
     <br>
     
-    <br>
-    <br>   
-    Let's examine:
     </p>
+
+
+
+    
+    
+    <div class="chapter">
+        <br>    
+        <h1>Metropolis Monte Carlo </h1>
+        <br>
+
+        <p>First off, we have the Metropolis Monte Carlo Method. The method utilizes a random walker to explore the energy landscape of a system.
+        The path of the walker is determined by the Metropolis-Hastings criterion, which evaluates the energy of the system before and after each step and determines whether or not a step should be taken
+        The acceptance is calculated as</p>
+        <p style="text-align: center;">
+
+        $\textbf{RND} < \min(1, \exp(-\Delta E /k_BT)$</p>
+
+        <p>That is, always take a step when the energy becomes lower (The exponential is larger than 1), but take a step towards a higher energy based on a random number and the given temperature.
+        Note that higher temperatures lead to the exponential being closer to 1 and thus a higher probability. This is shown in Figure 1.
+        </p>
+
+        <img src="../Weeks/Figures/Week 3/Monte_Carlo_walkers, three temps.gif" alt="MCMC_gif" style="width: 40%; position: abs;">
+        <p class="imgText">Figure 1: Animation showcasing the effect of "Monte Carlo Temperature", denoted by kT.</p>
+        
+
+        <p>Note how the low temperature is very likely to be stuck in local minima, as the probability of taking a step towards a higher energy is very low. On the contrary, the high temperature case has a hard time converging to a minimum as the probability of leaving it is quite high.</p>
+        <br>
+
+       
+        <img src="../Weeks/Figures/Week 3/monte_carlo_time.png" alt="MonteCarloTime" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 2: Above: The position of the walker versus number of steps taken. <br>Below: The first 100 positions of the walker in the energy landscape.</p>
+
+
+        <img src="../Weeks/Figures/Week 3/monte_carlo_convergence.png" alt="MonteCarloConvergence" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 3: Histogram of the number of steps needed to converge to a value close to the global minimum. Five temperatures have been used and for each of the temperatures, 1000 walkers were simulated. The box to the right are the walkers who didn't converge after 5000 steps.</p>
+
+        <img src="../Weeks/Figures/Week 3/monte_carlo_convergence_rate.png" alt="MonteCarloConvergenceRate" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 4: The cumulative success rate for each temperature.</p>
+
+
+        <p>In Figures 3 and 4, the convergence of the Monte Carlo Method at different temperatures have been explored. There is a large number of walkers who converge very quickly, but these can simply be attributed to walkers that were initialised close the global minimum.
+            The success rate of this method was highest for the high temperature case, which is expected as we already knew when the global minimum was reached and the temperature was high enough to allow for exploration of the energy landscape.
+        </p>
+
+        <img src="../Weeks/Figures/Week 3/mcmc.gif" alt="MCMC_gif" style="width: 40%; position: abs;">
+        <img src="../Weeks/Figures/Week 3/mcmc_atoms.gif" alt="MCMC_atoms_gif" style="width: 40%; position: abs;">
+       
+        <p class="imgText">Figure 5: Animation of the Metropolis Monte Carlo Method as a way to optimise the energy between atoms. The contour plot is the potential produced by two static atoms and the blue path is the path of the atom as it finds a minimum value.</p>
+        <br>     
+    
     </div>
+
+
+    <div class="chapter">
+        <h1>Line Search</h1>
+    
+
+    <img src="../Weeks/Figures/Week 3/line_search.gif" alt="LineSearch" style="width: 30%; position: abs;">
+    <p class="imgText">Figure 6: Animation of the Line Search Method. The contour plot is the potential produced by two static atoms and the blue path is the path of anoter atom as it finds an energy minimum.</p>
+
+    <img src="../Weeks/Figures/Week 3/line_search2.gif" alt="LineSearch" style="width: 30%; position: abs;">
+    <p class="imgText">Figure 7: Animation of the Line Search Method. The contour plot is the potential produced by two static atoms and the blue path is the path of another atom as it finds an energy minimum.</p>
+    </div>
+
+    <div class="chapter">
+        <h1>Particle Swarm Optimization</h1>
+
+        <img src="../Weeks/Figures/Week 3/particle_swarm.gif" alt="ParticleSwarm" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 8: Animation of the Particle Swarm Optimization Method. The contour plot is the potential produced by two static atoms and the particles are doing the optimization.</p>
+
+        <img src="../Weeks/Figures/Week 3/particle_swarm, unsuccesful.gif" alt="ParticleSwarmUnsuccessful" style="width: 30%; position: abs;">
+        <p class="imgText" >Figure 9: Animation of the Particle Swarm Optimization Method, where the particles are not able to find the global minimum.</p>
+
+    </div>
+
+    <div class="chapter">
+        <h1>Basin Hopping</h1>
+
+        <img src="../Weeks/../Weeks/Figures/Week 3/basin_hopping_1d.gif" alt="BasinHopping" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 10: Animation of the Basin Hopping Method</p>
+
+        <img src="../Weeks/Figures/Week 3/basin_hopping, 5 atoms.png" alt="BasinHopping, 5 atoms" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 11: Optimisation of 5 atoms using Basin Hopping</p>
+
+        <img src="../Weeks/Figures/Week 3/basin_hopping, 7 atoms.png" alt="BasinHopping, 5 atoms" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 12: Optimisation of 7 atoms using Basin Hopping</p>
+
+        <img src="../Weeks/Figures/Week 3/basin_hopping, 10 atoms.png" alt="BasinHopping, 5 atoms" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 13: Optimisation of 10 atoms using Basin Hopping</p>
+
+        <img src="../Weeks/Figures/Week 3/basin_hopping, 12 atoms.png" alt="BasinHopping, 5 atoms" style="width: 30%; position: abs;">
+        <p class="imgText">Figure 14: Optimisation of 12 atoms using Basin Hopping</p>
+
+    
+    </div>
+
+    <h1 class="subHeadline">Molecular Dynamics</h1>
+
+    <p>In the course, we have worked a lot with optimising molecules. It is very obvious, that we should look further into, what goes into this.</p>
     
 
     <div class="chapter">
         <br>    
-        <h1>Distance Moments </h1>
+        <h1>Velocity Verlet</h1>
         <br>
 
         
-
-        <img src="Figures/Week 4/DistanceMoments.png" alt="DistanceMoments" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 1: 6 different clusters and their Distance Moments descriptors.</p>
-
-        <br>
-
-        <p>The Distance Moments descriptor describes the system based on the distances between each atom, reduced down to the mean $\mu$ and the standard deviation $\sigma$.</p>
+    
+        <p>Velocity Verlet is a numerical method of simulating a system with constant energy. It's a method which incorporates the position and velocity equations up to second order:
         
-        <img src="Figures/Week 4/DistanceMoments_all.png" alt="DistanceMoments_all" style="width: 30%; position: abs;">
-        <p class="imgText">Figure 2: The clustering based on the Distance Moments descriptor.</p>
+        </p>
+        <eq>
+        $$x(t + \Delta t) = x(t) + v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2$$
+        
+        $$v(t + \Delta t) = v(t) + \frac{1}{2}(a(t) + a(t + \Delta t))\Delta t$$
+        </eq>
+
+        <p>
+        This form makes it easy to update positions and velocities of a large number of particles. The only requirement is to calculate the acceleration at each time step, which we can obtain from the gradient of the energy:
+        </p>
+
+        <eq>
+        $$a = \frac{F}{m} = -\frac{\nabla E}{m}$$
+        </eq>
+
+        <p>
+        The force can be calculated from the potential energy, which is a function of the distance between particles. The Lennard-Jones potential is a common choice for this purpose:
+        </p>
+        <eq>
+
+        $$V(r) = 4\epsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6\right]$$
+        </eq>
+        <p>
+        To do this with many particles, we calculate the force matrix, which is a symmetric matrix with the forces between all pairs of particles. The force between two particles is given by the gradient of the potential energy:
+        </p>
+        <eq>
+        $$F_{ij} = F_{ji} = -\nabla V(r_{ij})$$
+        </eq>
+        <p>
+        where </p><eq>$$r_{ij} = |r_i - r_j|$$</eq> <p>is the distance between particles i and j.
+        </p>
+        <img src="../Weeks/Figures/Week 5/Harmonic_Oscillator, Velocity-Verlet.png" alt="HarmOsc, VV" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 16: Left: The position of a particle in a harmonic potential when simulated with Velocity-Verlet. Right: The counts at each position of the particle.</p>
+        
+        
+       
+    </div>
+
+    <div class="chapter">
+        <h1>Thermostat</h1>
+
+        <p>
+            To make our molecule simulation more accurate, we can introduce a thermostat, effectively introducing kinetic energy to the system as it's described in Statistical Mechanics. Here, the velocites are drawn from a Maxwell-Boltzmann distribution, which is a Gaussian distribution with a mean of 0 and a standard deviation of 
+        </p>
+        <eq>$$ \sigma = \sqrt{\frac{kT}{m}}$$</eq>    
+        
+
+        <p>This is an approximation, which works fine as long as we are dealing with a low number of particles in a few dimensions.
+            <br>
+            Simulating the thermostat is done by setting the velocities at fixed intervals from the above-mentioned distribution and then using the Velocity Verlet method to .
+        </p>            
+        <img src="../Weeks/Figures/Week 5/Harmonic_Oscillator, MD.png" alt="HarmOsc, MD" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 17: Left: The position of a particle in a harmonic potential when simulated with Molecular Dynamics. Right: The counts at each position of the particle.</p>
+
+       
 
     </div>
 
+    
 
-    <div>
-        <h1></h1>
+    
+    <div class="chapter">
+        <h1>Exploration of potentials</h1>
+
+        <p>
+            In Figure 3, a potential is being sampled using molecular dynamics, that is, sampling using both a thermostat and the Velocity Verlet method. As is readily apparent, the low-energy molecules tend to stay constrained within their own local minimum, where the higher temperature molecules are more likely to spread out.
+        </p>
+
+        <img src="../Weeks/Figures/Week 5/CustomPotential, Varying T, MD, x = x0.png" style="width: 50%; position: abs;">
+        <img src="../Weeks/Figures/Week 5/CustomPotential, Varying T, MD, x = x1.png" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 18: Exploration of the potential using Molecular Dynamics at two different starting positions. Moving left increases the temperature of the system, which leads to larger areas of exploration.</p>
     </div>
+
+    <h1 class="subHeadline">Using PyTorch</h1>
+    <p>PyTorch is a powerful tool for optimisation, as it allows for automatic differentiation. 
+        This means that we can calculate the gradient of a function without having to do it manually. 
+        This is very useful when we are working with a large number of particles, as the gradient can be quite complex, but PyTorch can handle it.
+    </p>
+
+    <div class="chapter">
+        <h1>Recreating the catenary</h1>
+
+
+        <img src="../Weeks/Figures/Week 8/Catenary.gif" alt="Catenary" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 19: Animation of the catenary being recreated using PyTorch to optimise springs in a gravitational field.</p>
+
+    </div>
+
+    <div class="chapter">
+        <h1>Optimising Molecules, the Easy Way™</i></h1>
+
+        <p>Because auto-differentiation doesn't require us to know the analytic derivative of our potentials, we know have a much easier time getting the forces out. This allows us a much more hassle-free experience.</p>
+
+        <img src="../Weeks/Figures/Week 8/LJG_optimisation.png" alt="OptimisingMolecule" style="width: 50%; position: abs;">
+    </div>
+
 
     <div class="header">    
         <a href="../CompPhy.html" style="position: relative;">Back to Computational Physics</a><br>
@@ -58,9 +238,6 @@
         
         
     </div>
-
-
-
     <script src="script.js"></script>
     
 </body>

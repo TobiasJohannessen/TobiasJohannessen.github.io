@@ -3,7 +3,8 @@
 /* Make a setting that is applied to all:*/
 
 *{
-    font-family: 'Arial';
+    font-family: 'Times New Roman', sans-serif;
+    
 }
 
 body{
@@ -20,7 +21,6 @@ h1, h2, h3, h4, h5 h6{
 
 h1{
     color: #000000;
-    font-family: 'Arial';
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -30,9 +30,53 @@ h1{
     margin-right: 0px;
 }
 
+
+.headline{
+
+    color: #000000;
+    font-size: 2.5vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: block;
+    padding: 25px 0 40px 0;
+}
+
+.subHeadline{
+    color: #000000;
+    font-size: 1.5vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: block;
+    padding: 50px 0 25px 0;
+    border-top: 2px solid black;
+}
+
+.chapter h1{
+    color: #000000;
+    font-size: 1.5vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: block;
+    padding: 15px 0 25px 0;
+
+}
+
+
 p{
     color: #000000;
-    font-family: 'Arial';
+   
     font-size: 1.5vw;
     font-weight: normal;
     text-align: left;
@@ -44,7 +88,6 @@ p{
 
 a{
     color: #000000;
-    font-family: 'Arial';
     font-size: 20px;
     font-weight: bold;
 
@@ -64,6 +107,15 @@ img{
     margin-right: auto;
     width: 50%;
     border: 1px solid black;
+}
+
+
+eq{
+    color: #000000;
+    font-size: 1.5vw;
+    font-weight: normal;
+    text-align: left;
+    margin: auto;
 }
 
 

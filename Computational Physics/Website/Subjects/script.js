@@ -51,3 +51,81 @@ function linkRelevantWeeks(title) {
 
 // Call the function with the page title to generate relevant links
 linkRelevantWeeks(title);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="caption" id="caption"></div>
+        <span class="nav-button prev">&#10094;</span>
+        <span class="nav-button next">&#10095;</span>
+    `;
+    document.body.appendChild(modal);
+
+    const modalImg = document.getElementById('modalImage');
+    const captionText = document.getElementById('caption');
+    const closeModal = modal.querySelector('.close');
+    const prevButton = modal.querySelector('.prev');
+    const nextButton = modal.querySelector('.next');
+
+    const images = Array.from(document.querySelectorAll('img'));
+    let currentIndex = 0;
+
+    const showImage = (index) => {
+        // Ensure wrapping and update currentIndex
+        currentIndex = (index + images.length) % images.length;
+        modalImg.src = images[currentIndex].src;
+        //captionText.textContent = images[currentIndex].alt || 'Image';
+    };
+
+    images.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            showImage(index);
+        });
+    });
+
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    prevButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + images.length) % images.length; // Wrap index
+        showImage(currentIndex);
+    });
+
+    nextButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % images.length; // Wrap index
+        showImage(currentIndex);
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault(); // Prevent default browser behavior
+                currentIndex = (currentIndex - 1 + images.length) % images.length; // Wrap index
+                showImage(currentIndex);
+            }
+            if (e.key === 'ArrowRight') {
+                e.preventDefault(); // Prevent default browser behavior
+                currentIndex = (currentIndex + 1) % images.length; // Wrap index
+                showImage(currentIndex);
+            }
+            if (e.key === 'Escape') {
+                modal.style.display = 'none';
+            }
+        }
+    });
+
+
+}); 
