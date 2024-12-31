@@ -67,6 +67,16 @@ img{
 }
 
 
+eq{
+    color: #000000;
+    font-family: 'Arial';
+    font-size: 1.5vw;
+    font-weight: normal;
+    text-align: left;
+    margin: auto;
+}
+
+
 .imgText{
     text-align: center;
     font-size: 15px;

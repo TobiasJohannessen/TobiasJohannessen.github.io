@@ -308,10 +308,15 @@ class StaticAtomicCluster():
     def draw(self, ax, radius=None, size=100, alpha=1, force_draw=False, edge=False, color='C0',
             energy_title=True, full_energy_title=False, center = False):
 
+        draw_pos = self.pos
         if center:
-            #Find the positions of the static atoms
-            static_pos = self.pos[self.static]
-            self.pos = self.pos - np.mean(static_pos, axis=0)
+            if np.all(self.static == False):
+                #Find the positions of the all atoms and center them
+                draw_pos = self.pos - np.mean(self.pos, axis=0)
+            else:
+                #Find the positions of the static atoms
+                static_pos = self.pos[self.static]
+                draw_pos = self.pos - np.mean(static_pos, axis=0)
 
         if radius is not None:
             # Convert radius in data units to size in scatter units
@@ -342,19 +347,19 @@ class StaticAtomicCluster():
             if edge:
                 edgecolors = (0, 0, 0, 1)
                 self.plot_artists[ax] = ax.scatter(
-                    self.pos[:, 0], self.pos[:, 1],
+                    draw_pos[:, 0], draw_pos[:, 1],
                     s=size, facecolors=facecolors,
                     edgecolors=edgecolors, linewidth=2
                 )
             else:
                 edgecolors = (0, 0, 0, 0.5)
                 self.plot_artists[ax] = ax.scatter(
-                    self.pos[:, 0], self.pos[:, 1],
+                    draw_pos[:, 0], draw_pos[:, 1],
                     s=size, facecolors=facecolors,
                     edgecolors=edgecolors
                 )
         else:
-            self.plot_artists[ax].set_offsets(self.pos)
+            self.plot_artists[ax].set_offsets(draw_pos)
         if energy_title:
             ax.set_title(self.energy_title())
         if full_energy_title:
@@ -394,9 +399,8 @@ class AtomicCluster(StaticAtomicCluster):
                r'$E = $' + f'{self.potential_energy + self.kinetic_energy:.2g}'
 
 
-def velocity_verlet(cluster, N = 100):
+def velocity_verlet(cluster, N = 100, dt = 0.01):
     for _ in range(N):
-        dt = 0.01
         r = cluster.get_positions()
         v = cluster.get_velocities()
         a_t = cluster.forces()

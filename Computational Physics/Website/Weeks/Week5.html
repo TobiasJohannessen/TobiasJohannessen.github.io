@@ -3,16 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+      </script>
+      <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 </head>
 <body>
-    <h1>Week 5</h1>
-    <p> Here are some thoughts on the exercises from Week 2:</p>
+    <h1>Week 5: Molecular Dynamics</h1>
+    <p> Here are some thoughts on the exercises from Week 5:<br>
+        This week is about simulating Molecular Dynamics using both potential and kinetic energy of atoms.
+    </p>
 
-    <div></div>
+    
+
+    <div class="chapter">
+        <br>    
+        <h1>Velocity Verlet</h1>
+        <br>
+
+        
+    
+        <p>Velocity Verlet is a numerical method of simulating a system with constant energy. It's a method, which incorporates the position and velocity equations up to second order:
+        
+        </p>
+        <eq>
+        $$x(t + \Delta t) = x(t) + v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2$$
+        
+        $$v(t + \Delta t) = v(t) + \frac{1}{2}(a(t) + a(t + \Delta t))\Delta t$$
+        </eq>
+
+        <p>
+        This form makes it easy to update positions and velocities of a large number of particles. The only requirement is to calculate the acceleration at each time step, which we can obtain from the gradient of the energy:
+        </p>
+
+        <eq>
+        $$a = \frac{F}{m} = -\frac{\nabla E}{m}$$
+        </eq>
+
+        <p>
+        The force can be calculated from the potential energy, which is a function of the distance between particles. The Lennard-Jones potential is a common choice for this purpose:
+        </p>
+        <eq>
+
+        $$V(r) = 4\epsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6\right]$$
+        </eq>
+        <p>
+        To do this with many particles, we calculate the force matrix, which is a symmetric matrix with the forces between all pairs of particles. The force between two particles is given by the gradient of the potential energy:
+        </p>
+        <eq>
+        $$F_{ij} = F_{ji} = -\nabla V(r_{ij})$$
+        </eq>
+        <p>
+        where </p><eq>$$r_{ij} = |r_i - r_j|$$</eq> <p>is the distance between particles i and j.
+        </p>
+        <img src="Figures/Week 5/Harmonic_Oscillator, Velocity-Verlet.png" alt="HarmOsc, VV" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 1: Left: The position of a particle in a harmonic potential when simulated with Velocity-Verlet. Right: The counts at each position of the particle.</p>
+        
+        
+       
+    </div>
+
+    <div class="chapter">
+        <h1>Thermostat</h1>
+
+        <p>
+            To make our molecule simulation more accurate, we can introduce a thermostat, effectively introducing kinetic energy to the system as it's described in Statistical Mechanics. Here, the velocites are drawn from a Maxwell-Boltzmann distribution, which is a Gaussian distribution with a mean of 0 and a standard deviation of 
+        </p>
+        <eq>$$ \sigma = \sqrt{\frac{kT}{m}}$$</eq>    
+        
+
+        <p>This is an approximation, which works fine as long as we are dealing with a low number of particles in a few dimensions.
+            <br>
+            Simulating the thermostat is done by setting the velocities at fixed intervals from the above-mentioned distribution and then using the Velocity Verlet method to .
+        </p>            
+        <img src="Figures/Week 5/Harmonic_Oscillator, MD.png" alt="HarmOsc, MD" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 2: Left: The position of a particle in a harmonic potential when simulated with Molecular Dynamics. Right: The counts at each position of the particle.</p>
+
+       
+
+    </div>
+
+    <div class="chapter">
+        <h1>Exploration of potentials</h1>
+
+        <p>
+            In Figure 3, a potential is being sampled using molecular dynamics, that is, sampling using both a thermostat and the Velocity Verlet method. As is readily apparent, the low-energy molecules tend to stay constrained within their own local minimum, where the higher temperature molecules are more likely to spread out.
+        </p>
+
+        <img src="Figures/Week 5/CustomPotential, Varying T, MD, x = x0.png" style="width: 50%; position: abs;">
+        <img src="Figures/Week 5/CustomPotential, Varying T, MD, x = x1.png" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 3: Exploration of the potential using Molecular Dynamics at two different starting positions. Moving left increases the temperature of the system, which leads to larger areas of exploration.</p>
+    </div>
+
+
+    <div class="chapter">
+        <h1>Molecule Simulation</h1>
+        <h1>INSERT ANIMATION OF MOLECULES AT DIFFERENT TEMPERATURES</h1>
+
     </div>
     
     
+    <div class="chapter">
+        <h1>Simulated Annealing</h1>
+
+        <p>
+            Simulated Annealing is a method of finding the global minimum of a potential energy function. It works by starting at a high temperature, which allows the system to search for many minima, and the gradually lowering the temperature, which makes the system more likely to stay in the global minimum.
+        </p>
+
+        <h1> INSERT PICTURE/ANIMATION OF SIMULATED ANNEALING!!!</h1>
+
+    </div>
 
     <script src="script.js"></script>
     
