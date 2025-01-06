@@ -13,65 +13,156 @@
     </script>
 </head>
 <body>
-    <h1>Temperature</h1>
-    <p> Here are some thoughts on the exercises from Week 2:
-    <br>
+    <h1 class="headline">Temperature</h1>
    
-    <br>
-    <br>   
-    Let's examine:
+   
+    
     </p>
+
+
+
+    
+    <div id="slides-container"></div>
+    <div class="chapter">
+        
+    
+    </div>
+
+
+    <div class="chapter">
+        <h1></h1>
+    
+
+
+
+    </div>
+
+    <div class="chapter">
+        
+    
+    </div>
+
+    <h1 class="subHeadline">Molecular Dynamics</h1>
+
+    <p>In the course, we have worked a lot with optimising molecules. It is very obvious, that we should look further into, what goes into this.</p>
     
 
     <div class="chapter">
         <br>    
-        <h1>Intro: </h1>
+        <h1>Velocity Verlet</h1>
         <br>
 
         
+    
+        <p>Velocity Verlet is a numerical method of simulating a system with constant energy. It's a method which incorporates the position and velocity equations up to second order:
+        
+        </p>
+        <eq>
+        $$x(t + \Delta t) = x(t) + v(t)\Delta t + \frac{1}{2}a(t)\Delta t^2$$
+        
+        $$v(t + \Delta t) = v(t) + \frac{1}{2}(a(t) + a(t + \Delta t))\Delta t$$
+        </eq>
 
+        <p>
+        This form makes it easy to update positions and velocities of a large number of particles. The only requirement is to calculate the acceleration at each time step, which we can obtain from the gradient of the energy:
+        </p>
+
+        <eq>
+        $$a = \frac{F}{m} = -\frac{\nabla E}{m}$$
+        </eq>
+
+        <p>
+        The force can be calculated from the potential energy, which is a function of the distance between particles. The Lennard-Jones potential is a common choice for this purpose:
+        </p>
+        <eq>
+
+        $$V(r) = 4\epsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6\right]$$
+        </eq>
+        <p>
+        To do this with many particles, we calculate the force matrix, which is a symmetric matrix with the forces between all pairs of particles. The force between two particles is given by the gradient of the potential energy:
+        </p>
+        <eq>
+        $$F_{ij} = F_{ji} = -\nabla V(r_{ij})$$
+        </eq>
+        <p>
+        where </p><eq>$$r_{ij} = |r_i - r_j|$$</eq> <p>is the distance between particles i and j.
+        </p>
+        <img src="../Weeks/Figures/Week 5/Harmonic_Oscillator, Velocity-Verlet.png" alt="HarmOsc, VV" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 16: Left: The position of a particle in a harmonic potential when simulated with Velocity-Verlet. Right: The counts at each position of the particle.</p>
+        
+        
+       
     </div>
 
     <div class="chapter">
-        <h1>Harmonic Oscillator</h1>
+        <h1>Thermostat</h1>
 
-        <img src="../Weeks/Figures/Week 2/3_Harmonic_Oscillators.png" alt="Harmonic_Oscillator" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 3: The 3 Harmonic Oscillators.</p>
-
-
-        
-    </div>
-
-    <div class="chapter">
-        <h1>Metropolis-Hastings Monte Carlo</h1>
-
-        <img src="../Weeks/Figures/Week 2/Harmonic_Uniform, Varying N.png" alt="CustomPotential_Uniform" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 4: Harmonic Oscillator, Uniform, Varying N.</p>
-
-
-        <img src="../Weeks/Figures/Week 2/Harmonic_RW, Varying N.png" alt="CustomPotential_RW" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 5: Harmonic Oscillator, Random Walk, Varying N.</p>
-
-
-        <img src="../Weeks/Figures/Week 2/CustomPotential_Uniform, Varying N.png" alt="CustomPotential_Uniform" style="width: 40%; position: abs;">
-
-
-        <img src="../Weeks/Figures/Week 2/CustomPotential_Uniform, Varying Temperatures.png" alt="CustomPotential_Uniform" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 6: Custom Potential, Uniform, Varying Temperatures.</p>
-
-
-        <img src="../Weeks/Figures/Week 2/CustomPotential_RW, Varying Temperatures.png" alt="CustomPotential_RW" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 7: Custom Potential, Random Walk, Varying Temperatures.</p>
+        <p>
+            To make our molecule simulation more accurate, we can introduce a thermostat, effectively introducing kinetic energy to the system as it's described in Statistical Mechanics. Here, the velocites are drawn from a Maxwell-Boltzmann distribution, which is a Gaussian distribution with a mean of 0 and a standard deviation of 
+        </p>
+        <eq>$$ \sigma = \sqrt{\frac{kT}{m}}$$</eq>    
         
 
-        <img src="../Weeks/Figures/Week 2/Starting_Points.png" alt="Starting_Points" style="width: 40%; position: abs;">
-        <p class="imgText">Figure 8: The importance of starting points.</p>
-    </div>
+        <p>This is an approximation, which works fine as long as we are dealing with a low number of particles in a few dimensions.
+            <br>
+            Simulating the thermostat is done by setting the velocities at fixed intervals from the above-mentioned distribution and then using the Velocity Verlet method to .
+        </p>            
+        <img src="../Weeks/Figures/Week 5/Harmonic_Oscillator, MD.png" alt="HarmOsc, MD" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 17: Left: The position of a particle in a harmonic potential when simulated with Molecular Dynamics. Right: The counts at each position of the particle.</p>
 
- 
+       
+
+    </div>
 
     
 
+    
+    <div class="chapter">
+        <h1>Exploration of potentials</h1>
+
+        <p>
+            In Figure 3, a potential is being sampled using molecular dynamics, that is, sampling using both a thermostat and the Velocity Verlet method. As is readily apparent, the low-energy molecules tend to stay constrained within their own local minimum, where the higher temperature molecules are more likely to spread out.
+        </p>
+
+        <img src="../Weeks/Figures/Week 5/CustomPotential, Varying T, MD, x = x0.png" style="width: 50%; position: abs;">
+        <img src="../Weeks/Figures/Week 5/CustomPotential, Varying T, MD, x = x1.png" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 18: Exploration of the potential using Molecular Dynamics at two different starting positions. Moving left increases the temperature of the system, which leads to larger areas of exploration.</p>
+    </div>
+
+    <h1 class="subHeadline">Using PyTorch</h1>
+    <p>PyTorch is a powerful tool for optimisation, as it allows for automatic differentiation. 
+        This means that we can calculate the gradient of a function without having to do it manually. 
+        This is very useful when we are working with a large number of particles, as the gradient can be quite complex, but PyTorch can handle it.
+    </p>
+
+    <div class="chapter">
+        <h1>Recreating the catenary</h1>
+
+
+        <img src="../Weeks/Figures/Week 8/Catenary.gif" alt="Catenary" style="width: 50%; position: abs;">
+        <p class="imgText">Figure 19: Animation of the catenary being recreated using PyTorch to optimise springs in a gravitational field.</p>
+
+    </div>
+
+    <div class="chapter">
+        <h1>Optimising Molecules, the Easy Way™</i></h1>
+
+        <p>Because auto-differentiation doesn't require us to know the analytic derivative of our potentials, we know have a much easier time getting the forces out. This allows us a much more hassle-free experience.</p>
+
+        <img src="../Weeks/Figures/Week 8/LJG_optimisation.png" alt="OptimisingMolecule" style="width: 50%; position: abs;">
+    </div>
+
+
+    <div class="header">    
+        <a href="../CompPhy.html" style="position: relative;">Back to Computational Physics</a><br>
+        <p style="text-align: right; margin-right: 5px"> Relevant Weeks:</p>
+        <div id="weekLinks">
+        
+        </div>
+        
+        
+        
+    </div>
     <script src="script.js"></script>
     
 </body>

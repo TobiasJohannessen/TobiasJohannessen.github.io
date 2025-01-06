@@ -201,6 +201,9 @@ def relax(cluster,steps=100, tol = 0.05):
             
         cluster.set_positions(cluster.get_positions() + alpha_opt * p)
 
+    
+
+
 
 
 
@@ -288,7 +291,7 @@ class StaticAtomicCluster():
         forces = self.calc.force(self.pos)
         return np.where(self.filter,0,forces)
 
-    def set_positions(self,pos,ignore_b=False):
+    def set_positions(self,pos,ignore_b=True):
         if ignore_b:
             self.pos = pos
         else:

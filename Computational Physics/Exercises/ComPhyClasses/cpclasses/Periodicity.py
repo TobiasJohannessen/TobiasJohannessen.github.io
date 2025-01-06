@@ -40,6 +40,7 @@ class PeriodicSystem(AtomicCluster):
 
 
     def set_positions(self, pos):
+        pos = pos.copy()
         pos[:,0] = pos[:,0] % self.box[0,0]
         pos[:,1] = pos[:,1] % self.box[1,1]
         self.pos = pos

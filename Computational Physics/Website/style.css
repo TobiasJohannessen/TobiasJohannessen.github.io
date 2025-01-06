@@ -315,11 +315,11 @@ button{
 
 /* Modal Content (image) */
 .modal-content {
-    margin: auto;
-    display: flex;
-    width: 40%;
-    max-width: 700px;
-    /*height: 80vh; /* Adjust height as needed */
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    max-width: 1000px;
+    height: 80vh; /* Adjust height as needed */
 }
 
 .modal-content img {
