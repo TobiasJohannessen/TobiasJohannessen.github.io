@@ -1,4 +1,6 @@
-
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.special import erf
 
 #TO DO: Add a class for Kernel Regression
 #Make it nicer to use kernels with different hyperparameters instead of choosing them outside.

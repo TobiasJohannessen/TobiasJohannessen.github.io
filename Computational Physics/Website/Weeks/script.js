@@ -121,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="caption" id="caption"></div>
         <span class="nav-button prev">&#10094;</span>
         <span class="nav-button next">&#10095;</span>
+        <button id="zoomInButton">Zoom In</button>
+        <button id="zoomOutButton">Zoom Out</button>
     `;
     document.body.appendChild(modal);
 
@@ -129,15 +131,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = modal.querySelector('.close');
     const prevButton = modal.querySelector('.prev');
     const nextButton = modal.querySelector('.next');
+    const zoomInButton = document.getElementById('zoomInButton');
+    const zoomOutButton = document.getElementById('zoomOutButton');
 
     const images = Array.from(document.querySelectorAll('img'));
     let currentIndex = 0;
+    let zoomFactor = 1;  // Initial zoom factor
 
     const showImage = (index) => {
         // Ensure wrapping and update currentIndex
         currentIndex = (index + images.length) % images.length;
         modalImg.src = images[currentIndex].src;
-        //captionText.textContent = images[currentIndex].alt || 'Image';
+        // Reset zoom factor when showing a new image
+        zoomFactor = 1;
+        modalImg.style.transform = `scale(${zoomFactor})`;
     };
 
     images.forEach((img, index) => {
@@ -161,6 +168,16 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         currentIndex = (currentIndex + 1) % images.length; // Wrap index
         showImage(currentIndex);
+    });
+
+    zoomInButton.addEventListener('click', () => {
+        zoomFactor += 0.1; // Zoom in
+        modalImg.style.transform = `scale(${zoomFactor})`;
+    });
+
+    zoomOutButton.addEventListener('click', () => {
+        zoomFactor = Math.max(0.1, zoomFactor - 0.1); // Zoom out, but don't allow negative scaling
+        modalImg.style.transform = `scale(${zoomFactor})`;
     });
 
     window.addEventListener('click', (e) => {
@@ -187,6 +204,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
+    // Mouse wheel zoom logic
+    modalImg.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            // Zoom in on scroll up
+            zoomFactor += 0.1;
+        } else {
+            // Zoom out on scroll down
+            zoomFactor = Math.max(0.1, zoomFactor - 0.1);
+        }
+        modalImg.style.transform = `scale(${zoomFactor})`;
+    });
 });
+
 

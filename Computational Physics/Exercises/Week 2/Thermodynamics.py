@@ -151,8 +151,8 @@ class Potential():
         ax.bar(x_for_hist, self.P(x_for_hist), width = (self.x_max - self.x_min)/self._N_bins -0.01, alpha = 0.8, label = f'P(x)', color = color)
         
     
-    def plot_mcmc(self, ax, N = 1000, initial_point = 0.1, color = 'C0'):
-        if (self.mcmc is None) or (len(self.mcmc) < N):
+    def plot_mcmc(self, ax, N = 100000, initial_point = 0.1, color = 'C0'):
+        if (self.mcmc is None) or (len(self.mcmc) < N - 10):
             self.sample_MCMC(N = N, initial_point=initial_point)
     
 
@@ -259,7 +259,7 @@ class Potential():
         self.x_is += x_is
 
     #Metropolis-Hastings MCMC sampling
-    def sample_MCMC(self, N = 1000, initial_point = 0.1):
+    def sample_MCMC(self, N = 100000, initial_point = 0.1):
 
         match self.method:
             case 'Random Walk':
@@ -271,16 +271,11 @@ class Potential():
             case _:
                 raise ValueError('Method must be "Random Walk" or "Uniform"')
 
-        if self.mcmc is not None:
-            if len(self.mcmc) > N:
-                return
-            else:
-                initial_point = self.mcmc[-1]
                 
             
-        else:
-            initial_point = initial_point
-            self.mcmc = [initial_point]
+        
+        initial_point = initial_point
+        self.mcmc = [initial_point]
 
         mcmc_chain = []
         current_point = initial_point

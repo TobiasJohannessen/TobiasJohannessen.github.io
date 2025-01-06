@@ -302,7 +302,8 @@ button{
     position: fixed; 
     
     z-index: 1; 
-    padding-top: 60px; 
+    padding-top: 30px;
+    margin-bottom: 60px; 
     left: 0;
     top: 0;
     width: 100%;
@@ -316,7 +317,7 @@ button{
 .modal-content {
     margin: auto;
     display: flex;
-    width: 50%;
+    width: 40%;
     max-width: 700px;
     /*height: 80vh; /* Adjust height as needed */
 }
@@ -328,12 +329,6 @@ button{
     width: auto;
 }
 
-.modal-content img {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
-    width: auto;
-}
 
 /* Caption of Modal Image */
 .caption {
@@ -385,4 +380,36 @@ button{
 
 .nav-button:hover {
     color: #f1f1f1; 
+}
+
+/* Zoom buttons */
+#zoomInButton,
+#zoomOutButton {
+    position: absolute;
+    bottom: 25px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin: 0 10px;
+}
+
+#zoomInButton:hover,
+#zoomOutButton:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Adjust positioning of zoom buttons */
+#zoomInButton {
+    left: 50%;
+    transform: translateX(-125%);
+}
+
+#zoomOutButton {
+    left: 50%;
+    transform: translateX(0%);
 }

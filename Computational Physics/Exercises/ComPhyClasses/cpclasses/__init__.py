@@ -23,5 +23,6 @@ from .Periodicity import *
 from .Regression import *
 from .PlotTools import *
 from .NeuralNetworks import *
+from .GraphNeuralNetworks import *
 
 

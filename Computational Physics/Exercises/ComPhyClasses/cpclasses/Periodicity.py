@@ -14,8 +14,12 @@ class PeriodicSystem(AtomicCluster):
 
 
     @property
-    def potential(self):
+    def potential_energy(self):
         return self.calc.energy(self.pos, self.box)
+    
+    @property
+    def volume(self):
+        return np.linalg.det(self.box)
 
     def forces(self):
         forces = self.calc.forces(self.pos, self.box)
@@ -53,6 +57,38 @@ class PeriodicSystem(AtomicCluster):
             ax.scatter(self.pos[:,0]+dx*self.box[0,0], self.pos[:,1]+dy*self.box[1,1], s=size, facecolor='w', edgecolor = color, alpha=0.5)
 
     def draw_cell(self, ax):
-        cell_x = np.array(0, self.box[0,0], self.box[0,0], 0, 0)
-        cell_y = np.array(0, 0, self.box[1,1], self.box[1,1], 0)
+        cell_x = np.array([0, self.box[0,0], self.box[0,0], 0, 0])
+        cell_y = np.array([0, 0, self.box[1,1], self.box[1,1], 0])
         ax.plot(cell_x, cell_y, 'k-')
+
+    def title(self, ax):
+        ax.set_title(r'$E_{pot} = ' + f'{self.potential_energy:.2f}$' \
+                     + '\n' + r'$P = ' + f'{self.pressure():.2f}$' + '\n' + r'$Vol = ' + f'{self.volume:.2f}$')
+
+
+
+
+def barostat(system):
+    
+    scaled_pos = system.get_scaled_positions()
+    pos = system.get_positions()
+    box = system.box
+    stress = system.calc.stress(pos, box, delta=1e-3)
+    alpha = 0.1
+    scale_factor_x = 1 + alpha * stress[0,0]
+    scale_factor_y = 1 + alpha * stress[1,1]
+
+    minval = 0.999
+    maxval = 1.001
+
+    scale_factor_x = max(minval, min(maxval, scale_factor_x))
+    scale_factor_y = max(minval, min(maxval, scale_factor_y))
+
+    system.box[0,0] *= scale_factor_x
+    system.box[1,1] *= scale_factor_y
+    pos = scaled_pos @ system.box.T
+    system.set_positions(pos)
+    return stress
+        
+    
+

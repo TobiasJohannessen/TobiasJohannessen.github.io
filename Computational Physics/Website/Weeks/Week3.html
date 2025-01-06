@@ -33,9 +33,9 @@
         <p>First off, we have the Metropolis Monte Carlo Method. The method utilizes a random walker to explore the energy landscape of a system.
         The path of the walker is determined by the Metropolis-Hastings criterion, which evaluates the energy of the system before and after each step and determines whether or not a step should be taken
         The acceptance is calculated as</p>
-        <p style="text-align: center;">
+        <eq>
 
-        $\textbf{RND} < \min(1, \exp(-\Delta E /k_BT)$</p>
+        $$\textbf{RND} < \min(1, \exp(-\Delta E /k_BT))$$</eq>
 
         <p>That is, always take a step when the energy becomes lower (The exponential is larger than 1), but take a step towards a higher energy based on a random number and the given temperature.
         Note that higher temperatures lead to the exponential being closer to 1 and thus a higher probability. This is shown in Figure 1.

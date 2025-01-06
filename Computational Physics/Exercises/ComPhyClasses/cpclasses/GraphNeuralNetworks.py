@@ -139,7 +139,7 @@ class NoParamsGNN(MessagePassing):
 
 class PsiGNN(MessagePassing):
 
-    def __init__(self, d_in, d_out, aggr = 'add'):
+    def __init__(self, d_in, d_message, d_out, aggr = 'add'):
         super().__init__(aggr = aggr)
         self.psi = torch.nn.Linear(d_in, d_out)
 
@@ -154,10 +154,10 @@ class PsiGNN(MessagePassing):
 
 class PhiPsiGNN(MessagePassing):
 
-    def __init__(self, d_in, d_out, aggr = 'add'):
+    def __init__(self, d_in,d_message, d_out, aggr = 'add'):
         super().__init__(aggr = aggr)
-        self.psi = torch.nn.Linear(d_in, d_out)
-        self.phi = torch.nn.Linear(d_in + d_out, d_out)
+        self.psi = torch.nn.Linear(d_in, d_message)
+        self.phi = torch.nn.Linear(d_in + d_message, d_out)
 
     def forward(self, x, edge_index):
         #x = x.view(-1, 1)
@@ -189,4 +189,27 @@ class AggrPhiPsiGNN(MessagePassing):
     def message(self, x_j):
         return self.psi(x_j)
 
+
+class TwoMessagePassingGNN(torch.nn.Module):
+
+    def __init__(self, mes1 = 1, hid1 = 1, mes2 = 1):
+        super().__init__()
+        self.layer1 = PhiPsiGNN(1, mes1, hid1)
+        self.layer2 = PhiPsiGNN(hid1, mes2, 1)
+        self.aggr = SumAggregation()
+
+    def forward(self, graph):
+        x = self.representation(graph)
+        x = x.view(-1,1)
+    
+        y = self.aggr(x, graph.batch)
+        x = x.flatten()
+        return x, y
+
+
+    def representation(self, graph):
+        x = self.layer1(graph.x, graph.edge_index)
+        x = x.view(-1,1)
+        x = self.layer2(x, graph.edge_index)
+        return x
 

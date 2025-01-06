@@ -193,12 +193,14 @@ def relax(cluster,steps=100, tol = 0.05):
         f = cluster.forces()
         fnorm = np.linalg.norm(f)
         if fnorm < tol:
+            print(fnorm)
             break
         p = f/fnorm
         
         alpha_opt = fmin(lambda alpha: energy_of_alpha(alpha,p), 0.1, disp=False)
             
         cluster.set_positions(cluster.get_positions() + alpha_opt * p)
+
 
 
 
@@ -300,7 +302,7 @@ class StaticAtomicCluster():
         return self.descriptor_method.descriptor(self.pos)
 
     def energy_title(self):
-        return r'$E_{p} = $' + f'{self.potential_energy:.2g}'
+        return r'$E_{p} = $' + f'{self.potential_energy:.2f}'
 
     
 
@@ -308,7 +310,7 @@ class StaticAtomicCluster():
     def draw(self, ax, radius=None, size=100, alpha=1, force_draw=False, edge=False, color='C0',
             energy_title=True, full_energy_title=False, center = False):
 
-        draw_pos = self.pos
+        draw_pos = self.pos.copy()
         if center:
             if np.all(self.static == False):
                 #Find the positions of the all atoms and center them
@@ -410,3 +412,5 @@ def velocity_verlet(cluster, N = 100, dt = 0.01):
         v += 0.5 * (a_t + a_t_dt) * dt
         cluster.set_velocities(v)
     
+
+

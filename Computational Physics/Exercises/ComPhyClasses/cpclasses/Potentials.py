@@ -4,7 +4,7 @@ T = 200 #Kelvin
 import numpy as np
 #import pytorch
 import torch
-from scipy.spatial.distance import pdist
+from scipy.spatial.distance import pdist, squareform
     
 
 
@@ -500,6 +500,7 @@ class PeriodicLennardJones(Potential):
 
     def __init__(self, eps = 1):
         self.eps = eps
+        self.box = np.array([[1,0],[0,1]])
 
     def _V(self, r):
         return self.eps*((r**-12)-2 *(r**-6))
@@ -531,11 +532,37 @@ class PeriodicLennardJones(Potential):
     
 class PeriodicLennardJonesWithStress(PeriodicLennardJones):
 
-    def stress(self):
-        pass
+    def stress(self, pos, box, delta=1e-4):
+        N = len(pos)
+        dim = len(box)
+        stress_tensor = np.zeros((dim,dim))
 
-    def pressure(self):
-        pass
+        energy_0 = self.energy(pos, box)
+
+        #Implement only for diagonal terms
+        for i in range(dim):
+            for j in [i]:
+                #Perturb the box dimension (scale the box)
+                box_perturbed = box.copy()
+                box_perturbed[i,i] += delta
+
+                #Scale positions to match the new box
+                pos_perturbed = np.dot(pos, np.linalg.inv(box).T @ box_perturbed)
+
+                energy_perturbed = self.energy(pos_perturbed, box_perturbed)
+
+                strain = (box_perturbed[i,j] - box[i,j])/box[i,j]
+                stress_tensor[i,j] = -(energy_perturbed - energy_0)/strain
+        vol = box[0,0]*box[1,1]
+
+        return stress_tensor/vol
+
+    def pressure(self, pos, box, delta=1e-4):
+        stress_tensor = self.stress(pos, box, delta)
+        dim = stress_tensor.shape[0]
+        pressure = np.trace(stress_tensor)/dim
+        return pressure
+        
 
 
 class LennardJonesGauss(PeriodicLennardJonesWithStress):

@@ -411,9 +411,7 @@ class Classification(torch.nn.Module):
 
     def predict_label(self, x):
 
-        predicted_weights = self(x)
-        predicted_probabilities = torch.nn.functional.softmax(predicted_weights, dim=1)
-        predicted_label = torch.argmax(predicted_probabilities, dim=1)
+        predicted_label = torch.argmax(self(x), dim=1)
         return predicted_label
 
 
@@ -484,7 +482,7 @@ class Classification(torch.nn.Module):
 
 
 class Classification_I(Classification):
-    def __init__(self, n_features=1, n_classes=3):
+    def __init__(self, n_features=2, n_classes=3):
         super().__init__(n_features, n_classes)
         self.fc1 = torch.nn.Linear(n_features, n_classes, bias=True)
 
@@ -497,7 +495,7 @@ class Classification_I(Classification):
 
 class Classification_II(Classification):
 
-    def __init__(self, n_features=1, n_classes=3):
+    def __init__(self, n_features=2, n_classes=3):
         super().__init__(n_features, n_classes)
         self.fc1 = torch.nn.Linear(n_features, 10, bias=True)
         self.fc2 = torch.nn.Linear(10, n_classes, bias=True)
@@ -512,7 +510,7 @@ class Classification_II(Classification):
 
 class Classification_III(Classification):
 
-    def __init__(self, n_features=1, n_classes=3):
+    def __init__(self, n_features=2, n_classes=3):
         super().__init__(n_features, n_classes)
         self.input_layer = torch.nn.Linear(n_features, 10, bias=True)
         self.hidden_layer = torch.nn.Linear(10, 10, bias=True)
