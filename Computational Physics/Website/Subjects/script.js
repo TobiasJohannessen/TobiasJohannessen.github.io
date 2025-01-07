@@ -175,9 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create and append <img> elements for each slide
     for (let i = 1; i <= slideCount; i++) {
       const img = document.createElement('img');
-      try {img.src = `${folderPath}/Slide${i}.jpg`;} // Assumes slides are jpg
-        catch (e) {img.src = `${folderPath}/Slide${i}.gif`;} // Assumes slides are gif;
-      
+      img.src = `${folderPath}/Slide${i}.JPG` // Assumes slides are jpg
+        
       img.alt = `Slide ${i}`;
       img.style.display = 'block'; // Optional: ensure each slide is on a new line
       container.appendChild(img);
