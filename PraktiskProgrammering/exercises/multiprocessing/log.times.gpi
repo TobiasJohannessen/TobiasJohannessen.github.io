@@ -1,0 +1,9 @@
+ \
+	set terminal svg; \
+	set output "times.svg"; \
+	set key left ;\
+	set xlabel "Number of threads";\
+	set ylabel "time [s]";\
+	plot  \
+		"times.txt" with lines title ""\
+

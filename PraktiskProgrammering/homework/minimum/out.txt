@@ -1,0 +1,156 @@
+Testing Newton's method for minimization...
+
+
+
+-----------------ROSENBROCK FUNCTION--------------------- 
+
+Finding the minima of the Rosenbrock function
+ This is done through gradient descent.
+Testing g(x) = (1 - x0, 100 * (x1 - x0^2)), with various starting guesses:
+Initial guess: (3, 6)
+Root(s) found:
+x[0] = 0.999998
+x[1] = 0.999996
+Test passed: Root is close to expected value #0.
+Number of steps taken: 19
+
+Initial guess: (7, 5)
+Root(s) found:
+x[0] = 0.999996
+x[1] = 0.999992
+Test passed: Root is close to expected value #0.
+Number of steps taken: 36
+
+Initial guess: (3, 5)
+Root(s) found:
+x[0] = 0.999989
+x[1] = 0.999977
+Test passed: Root is close to expected value #0.
+Number of steps taken: 19
+
+Initial guess: (6, 2)
+Root(s) found:
+x[0] = 0.999988
+x[1] = 0.999976
+Test passed: Root is close to expected value #0.
+Number of steps taken: 32
+
+Initial guess: (9, 1)
+Root(s) found:
+x[0] = 0.999988
+x[1] = 0.999976
+Test passed: Root is close to expected value #0.
+Number of steps taken: 43
+
+Initial guess: (2, 7)
+Root(s) found:
+x[0] = 0.999988
+x[1] = 0.999976
+Test passed: Root is close to expected value #0.
+Number of steps taken: 14
+
+Initial guess: (0, 9)
+Root(s) found:
+x[0] = 0.999988
+x[1] = 0.999976
+Test passed: Root is close to expected value #0.
+Number of steps taken: 14
+
+Initial guess: (3, 6)
+Root(s) found:
+x[0] = 0.999998
+x[1] = 0.999996
+Test passed: Root is close to expected value #0.
+Number of steps taken: 19
+
+Initial guess: (0, 6)
+Root(s) found:
+x[0] = 0.999988
+x[1] = 0.999976
+Test passed: Root is close to expected value #0.
+Number of steps taken: 14
+
+Initial guess: (2, 6)
+Root(s) found:
+x[0] = 0.999988
+x[1] = 0.999976
+Test passed: Root is close to expected value #0.
+Number of steps taken: 14
+
+All tests passed for the Rosenbrock function.
+
+
+ -------------------HIMMELBLAU FUNCTION------------------------------- 
+
+Finding the minima of the Himmelblau function:
+Initial guess: (1, 8)
+Root(s) found:
+x[0] = -2.80512
+x[1] = 3.13131
+Test passed: Root is close to expected value #1.
+Number of steps taken: 7
+
+Initial guess: (7, 9)
+Root(s) found:
+x[0] = 3
+x[1] = 2
+Test passed: Root is close to expected value #0.
+Number of steps taken: 8
+
+Initial guess: (2, 0)
+Root(s) found:
+x[0] = 3.38515
+x[1] = 0.0738518
+Test failed: No expected root matched within tolerance.
+Number of steps taken: 5
+
+Initial guess: (2, 3)
+Root(s) found:
+x[0] = 3
+x[1] = 2
+Test passed: Root is close to expected value #0.
+Number of steps taken: 5
+
+Initial guess: (7, 5)
+Root(s) found:
+x[0] = 3
+x[1] = 2
+Test passed: Root is close to expected value #0.
+Number of steps taken: 6
+
+Initial guess: (9, 2)
+Root(s) found:
+x[0] = 3.58443
+x[1] = -1.84813
+Test passed: Root is close to expected value #3.
+Number of steps taken: 6
+
+Initial guess: (2, 8)
+Root(s) found:
+x[0] = -2.80512
+x[1] = 3.13131
+Test passed: Root is close to expected value #1.
+Number of steps taken: 8
+
+Initial guess: (9, 7)
+Root(s) found:
+x[0] = 3
+x[1] = 2
+Test passed: Root is close to expected value #0.
+Number of steps taken: 7
+
+Initial guess: (3, 6)
+Root(s) found:
+x[0] = 3
+x[1] = 2
+Test passed: Root is close to expected value #0.
+Number of steps taken: 7
+
+Initial guess: (1, 2)
+Root(s) found:
+x[0] = 0.0866806
+x[1] = 2.88425
+Test failed: No expected root matched within tolerance.
+Number of steps taken: 24588
+
+2 out of 10 tests failed for the Himmelblau function.

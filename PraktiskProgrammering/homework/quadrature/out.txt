@@ -1,0 +1,174 @@
+--- Starting Integration Tests ---
+
+Testing integration of various functions using recursive adaptive quadrature.
+
+ Test results will be compared against known values to a precision of 4 decimals.
+
+Integral of sqrt(x) from 0 to 1:
+  Result:   0.6667008102
+  Expected: 0.6666666667
+  PASSED
+
+Integral of 1/sqrt(x) from 0 to 1:
+  Result:   1.9999615001
+  Expected: 2.0000000000
+  PASSED
+
+Integral of sqrt(1 - x^2) from 0 to 1:
+  Result:   0.7854176297
+  Expected: 0.7853981634
+  PASSED
+
+Integral of log(x)/sqrt(x) from 0 to 1:
+  Result:   -3.9999702395
+  Expected: -4.0000000000
+  PASSED
+
+--- Testing Error Function erf(z) ---
+
+Reading values from data/erf_table.data:
+z 	 table erf(z) 	 computed erf(z) 	 absolute error 
+0.0000000000	0.0000000000	0.0000000000	0.0000000000
+0.0200000000	0.0225645750	0.0225645747	0.0000000003
+0.0400000000	0.0451111060	0.0451111059	0.0000000001
+0.0600000000	0.0676215940	0.0676215926	0.0000000014
+0.0800000000	0.0900781260	0.0900781185	0.0000000075
+0.1000000000	0.1124629160	0.1124628937	0.0000000223
+0.2000000000	0.2227025890	0.2227019035	0.0000006855
+0.3000000000	0.3286267590	0.3286219069	0.0000048521
+0.4000000000	0.4283923550	0.4283738940	0.0000184610
+0.5000000000	0.5204998780	0.5204508336	0.0000490444
+0.6000000000	0.6038560910	0.6038501367	0.0000059543
+0.7000000000	0.6778011940	0.6777911543	0.0000100397
+0.8000000000	0.7421009650	0.7420866399	0.0000143251
+0.9000000000	0.7969082120	0.7968909248	0.0000172872
+1.0000000000	0.8427007930	0.8427299585	0.0000291655
+1.1000000000	0.8802050700	0.8810778286	0.0008727586
+1.2000000000	0.9103139780	0.9109171338	0.0006031558
+1.3000000000	0.9340079450	0.9347933491	0.0007854041
+1.4000000000	0.9522851200	0.9528095725	0.0005244525
+1.5000000000	0.9661051460	0.9664405664	0.0003354204
+1.6000000000	0.9763483830	0.9765529721	0.0002045891
+1.7000000000	0.9837904590	0.9839085760	0.0001181170
+1.8000000000	0.9890905020	0.9891541843	0.0000636823
+1.9000000000	0.9927904290	0.9920827001	0.0007077289
+2.0000000000	0.9953222650	0.9949003185	0.0004219465
+2.1000000000	0.9970205330	0.9967786682	0.0002418648
+2.2000000000	0.9981371540	0.9980045299	0.0001326241
+2.3000000000	0.9988568230	0.9987878298	0.0000689932
+2.4000000000	0.9993114860	0.9992779253	0.0000335607
+2.5000000000	0.9995930480	0.9995782135	0.0000148345
+3.0000000000	0.9999779100	0.9999786323	0.0000007223
+3.5000000000	0.9999992570	0.9999993383	0.0000000813
+Finished reading values from data/erf_table.data and writing results to data/erf_results.txt.
+
+erf(1) with acc=0.00000000010000000000:
+  Computed: 0.84270079294974224894
+  Expected: 0.84270079294971486937
+  Error:    0.00000000000002737957
+
+erf(1) with acc=0.00000000100000000000:
+  Computed: 0.84270079294981363834
+  Expected: 0.84270079294971486937
+  Error:    0.00000000000009876897
+
+erf(1) with acc=0.00000001000000000000:
+  Computed: 0.84270079295188466670
+  Expected: 0.84270079294971486937
+  Error:    0.00000000000216979733
+
+erf(1) with acc=0.00000010000000000000:
+  Computed: 0.84270079301790904846
+  Expected: 0.84270079294971486937
+  Error:    0.00000000006819417909
+
+erf(1) with acc=0.00000100000000000000:
+  Computed: 0.84270079419261127945
+  Expected: 0.84270079294971486937
+  Error:    0.00000000124289641009
+
+erf(1) with acc=0.00001000000000000000:
+  Computed: 0.84270081831810162858
+  Expected: 0.84270079294971486937
+  Error:    0.00000002536838675921
+
+erf(1) with acc=0.00010000000000000000:
+  Computed: 0.84270244870944610956
+  Expected: 0.84270079294971486937
+  Error:    0.00000165575973124020
+
+erf(1) with acc=0.00100000000000000000:
+  Computed: 0.84272995848719865899
+  Expected: 0.84270079294971486937
+  Error:    0.00002916553748378962
+
+erf(1) with acc=0.01000000000000000000:
+  Computed: 0.84251036764405338558
+  Expected: 0.84270079294971486937
+  Error:    0.00019042530566148379
+
+erf(1) with acc=0.10000000000000000001:
+  Computed: 0.84251036764405338558
+  Expected: 0.84270079294971486937
+  Error:    0.00019042530566148379
+
+Finished testing erf function with various accuracies.
+--- Starting Variable Transformation Quadratures Tests ---
+
+Testing number of calls during integration of 1/sqrt(x) from 0 to 1 using variable transformation quadrature.
+
+Number of function calls for adaptive quadrature: 65773
+Number of function calls for variable transformation quadrature: 9
+Ratio of function calls (adaptive / variable transformation): 7308.11111111111131322104
+
+Testing number of calls during integration of ln(x)/sqrt(x) from 0 to 1 using variable transformation quadrature.
+
+Number of function calls for adaptive quadrature: 65819
+Number of function calls for variable transformation quadrature: 71
+Ratio of function calls (adaptive / variable transformation): 927.02816901408448302391
+
+Testing integration of with infinte boundaries
+
+Integral of a Gaussian function from -inf to inf:
+  Result:   1.7725068794
+  Expected: 1.7724538509
+  PASSED
+
+Number of function calls for Gaussian integral: 51
+
+Integral of a Cauchy function from -inf to 0:
+  Result:   1.5708723641
+  Expected: 1.5707963268
+  PASSED
+
+Number of function calls for Cauchy integral: 11
+
+Integral of a Power Law decay function from 1 to inf:
+  Result:   1.0000081668
+  Expected: 1.0000000000
+  PASSED
+
+Number of function calls for Exponential decay integral: 25
+
+--- Test Summary ---
+All 7 integration tests PASSED successfully!
+
+
+
+ -----------PYTHON SCRIPT OUTPUT-----------
+
+Using scipy.integrate.quad:
+
+Gaussian integral: 1.7724538509067376 with error 4.316364671314715e-06 and 150 evaluations
+The actual error is 1.2216894162975223e-12
+
+Cauchy integral: 1.5707963267948966 with error 2.5777915205519274e-10 and 45 evaluations
+The actual error is 0.0
+
+Exponential integral: 0.9999999997018258 with error 5.670650096415526e-05 and 75 evaluations
+The actual error is 2.9817415203581277e-10
+
+
+
+ It seems that the error overestimated for all three integrals as the calculated error seems to be significantly smaller.
+ The number of evaluations is also 3-5 times bigger than the solver made in C++.

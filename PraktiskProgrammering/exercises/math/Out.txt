@@ -1,0 +1,30 @@
+Simple math operations:
+The square root of 2 equals 1.41421. Should be 1.41421 
+The fifth root of 2 equals 1.1487. Should be 1.1487 
+e to the power of pi equals 23.1407. Should be 23.1407 
+pi to the power of pi equals 22.4592. Should be 22.4592 
+
+Gamma functions of 1-10:
+Γ(1) = 1 --- Real value: 1
+Γ(2) = 1 --- Real value: 1
+Γ(3) = 2 --- Real value: 2
+Γ(4) = 6 --- Real value: 6
+Γ(5) = 24 --- Real value: 24
+Γ(6) = 120 --- Real value: 120
+Γ(7) = 720 --- Real value: 720
+Γ(8) = 5040 --- Real value: 5040
+Γ(9) = 40320 --- Real value: 40320
+Γ(10) = 362880 --- Real value: 362880
+
+ln of Gamma functions of 0-10:
+ln(Γ(0)) = nan --- Real value: nan
+ln(Γ(1)) = -1.09351e-08 --- Real value: 0
+ln(Γ(2)) = -1.09351e-08 --- Real value: 0
+ln(Γ(3)) = 0.693147 --- Real value: 0.693147
+ln(Γ(4)) = 1.79176 --- Real value: 1.79176
+ln(Γ(5)) = 3.17805 --- Real value: 3.17805
+ln(Γ(6)) = 4.78749 --- Real value: 4.78749
+ln(Γ(7)) = 6.57925 --- Real value: 6.57925
+ln(Γ(8)) = 8.52516 --- Real value: 8.52516
+ln(Γ(9)) = 10.6046 --- Real value: 10.6046
+ln(Γ(10)) = 12.8018 --- Real value: 12.8018

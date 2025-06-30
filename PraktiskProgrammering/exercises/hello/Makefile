@@ -1,9 +1,13 @@
-hello.out : hello.cpp
-	echo c++ hello.cpp
+Out.txt: main
+	./main > Out.txt
 
-Out.txt : hello.out
-	hello.out > Out.txt
+main: hello.o
+	$(CXX) hello.o -o main
 
-.PHONEY:clean
-clean:
-	rm -f Out.txt hello.out
+hello.o: hello.cpp
+	$(CXX) -c hello.cpp
+
+clean:                           # a phoney target, no dependencies
+	rm -f Out.txt hello.o  # remove secondary files
+
+ 

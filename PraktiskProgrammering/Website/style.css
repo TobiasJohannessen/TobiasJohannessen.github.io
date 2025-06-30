@@ -1,0 +1,414 @@
+/* This is the CSS file for the website. */
+
+/* Make a setting that is applied to all:*/
+
+*{
+    font-family: 'Times New Roman', sans-serif;
+    
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+}
+
+h1, h2, h3, h4, h5 h6{
+    text-align: center;
+
+}
+
+h1{
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+.headline{
+
+    color: #000000;
+    font-size: 2.5vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: block;
+    padding: 25px 0 40px 0;
+}
+
+.subHeadline{
+    color: #000000;
+    font-size: 1.5vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: block;
+    padding: 50px 0 25px 0;
+    border-top: 2px solid black;
+}
+
+.chapter h1{
+    color: #000000;
+    font-size: 1.5vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: block;
+    padding: 15px 0 25px 0;
+
+}
+
+
+p{
+    color: #000000;
+   
+    font-size: 1.5vw;
+    font-weight: normal;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 2.5%;
+    margin-right: 15%;
+}
+
+a{
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+
+   
+}
+
+a:hover{
+    color: blue;
+    font-size: 21px;
+}
+
+
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border: 1px solid black;
+}
+
+
+eq{
+    color: #000000;
+    font-size: 1.5vw;
+    font-weight: normal;
+    text-align: left;
+    margin: auto;
+}
+
+
+.imgText{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 5px;
+}
+
+
+.header{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    text-align: right;
+    top: 0;
+    width: 99%;
+    align-items: right;
+}
+
+.footer{
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    width: 99%;
+}
+
+
+.chapter{
+    border: 2px solid black;
+    margin: 10px 10px 10px 10px;
+    background-color: #f1f1f1;
+    padding: 25px;
+}
+
+pre code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}
+
+
+.crossed-out {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.week-title {
+    font-weight: bold;
+    margin-top: 20px;
+}
+.task-list {
+    margin-bottom: 10px;
+}
+
+.linkContainer {
+  position: relative;
+  width: 90%;      /* make it wider within its cell */
+  max-width: 350px; /* limit max width */
+  height: 200%;
+  padding: 45px;   /* reduce padding */
+  background: linear-gradient(to top, white, #f1f1f1);
+  border-radius: 25px;
+  margin-top: 25px;
+  transition: 0.5s ease all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-60%);
+}
+
+.linkContainer img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    mix-blend-mode: multiply;
+    width: auto;
+    height: 70%;
+    border-radius: 5px;
+    border: 0;
+}
+
+
+.linkContainer:hover {
+    transform: translateY(-65%);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    filter: brightness(105%);
+}
+
+.linkContainer:hover .overlay {
+    opacity: 0.69;
+    
+}
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background: linear-gradient(to top, white, darkgray);
+    border-radius: 25px;
+}
+
+.text {
+    color: black;
+    text-decoration:wavy;
+    font-size: 25px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 1;
+}
+
+.overlay .text {
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 1;
+    
+}
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* or 100vh */
+    padding: 20px;
+}
+
+
+/*Make a flex container with a row layout with 3 items in each row*/
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 120px;
+  width: 150%;
+  height: 500%;
+  margin: 0 auto;
+  /* optional: center items horizontally */
+  justify-items: center;  /* this centers grid children horizontally */
+}
+
+
+button{
+    background-color: #f1f1f1;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; 
+    position: fixed; 
+    
+    z-index: 1; 
+    padding-top: 30px;
+    margin-bottom: 60px; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.8); /* Black with opacity */
+}
+
+
+/* Modal Content (image) */
+.modal-content {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    max-width: 1000px;
+    height: 80vh; /* Adjust height as needed */
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+}
+
+
+/* Caption of Modal Image */
+.caption {
+    text-align: center;
+    color: #ccc;
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+/* Navigation buttons */
+.nav-button {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.nav-button:hover {
+    color: #f1f1f1; 
+}
+
+/* Zoom buttons */
+#zoomInButton,
+#zoomOutButton {
+    position: absolute;
+    bottom: 25px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin: 0 10px;
+}
+
+#zoomInButton:hover,
+#zoomOutButton:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Adjust positioning of zoom buttons */
+#zoomInButton {
+    left: 50%;
+    transform: translateX(-125%);
+}
+
+#zoomOutButton {
+    left: 50%;
+    transform: translateX(0%);
+}

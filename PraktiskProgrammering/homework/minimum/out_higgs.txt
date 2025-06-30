@@ -1,0 +1,7 @@
+Find the Higgs Width using minimization
+
+Root found:
+m = 125.972, gamma = 2.08633, A = 9.87621
+Minimum chi^2: 26.8695
+Number of iterations: 8
+I seem to consistently get a Higgs Width that is too low (~2.08633). It is also the solution that gives the best chi^2, so I guess it's good?

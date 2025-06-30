@@ -1,0 +1,101 @@
+128	.
+70	./Computational Physics
+58	./.git/objects/pack
+58	./.git/objects
+58	./.git
+44	./Computational Physics/Website
+27	./Computational Physics/Website/Weeks/Figures
+27	./Computational Physics/Website/Weeks
+26	./Computational Physics/Exercises
+18	./Computational Physics/Website/Subjects/Figures
+18	./Computational Physics/Website/Subjects
+8	./Computational Physics/Website/Weeks/Figures/Week 1
+5	./Computational Physics/Exercises/Week 4
+4	./Computational Physics/Website/Weeks/Figures/Week 4
+4	./Computational Physics/Website/Weeks/Figures/Week 12
+4	./Computational Physics/Website/Subjects/Figures/NeuralNetworks I
+3	./Computational Physics/Website/Weeks/Figures/Week 3
+3	./Computational Physics/Website/Weeks/Figures/Thumbnails
+3	./Computational Physics/Website/Subjects/Figures/Temperature
+3	./Computational Physics/Website/Subjects/Figures/PhaseTransitions
+3	./Computational Physics/Website/Subjects/Figures/MolecularGraphs
+3	./Computational Physics/Exercises/Week 12
+2	./Computational Physics/Website/Weeks/Figures/Week 5
+2	./Computational Physics/Website/Weeks/Figures/Week 4/Descriptors
+2	./Computational Physics/Website/Weeks/Figures/Week 2
+2	./Computational Physics/Website/Subjects/Figures/Thumbnails
+2	./Computational Physics/Website/Subjects/Figures/Regression
+2	./Computational Physics/Website/Subjects/Figures/NeuralNetworks II
+2	./Computational Physics/Website/Subjects/Figures/Clustering
+2	./Computational Physics/Exercises/Week 9
+2	./Computational Physics/Exercises/Week 8
+2	./Computational Physics/Exercises/Week 7
+2	./Computational Physics/Exercises/Week 6
+2	./Computational Physics/Exercises/Week 5
+2	./Computational Physics/Exercises/Week 3
+2	./Computational Physics/Exercises/Week 2
+2	./Computational Physics/Exercises/Week 13
+2	./Computational Physics/Exercises/Week 11
+1	./PraktiskProgrammering
+1	./Game of Life
+1	./Computational Physics/Website/todolist
+1	./Computational Physics/Website/Weeks/Figures/Week 9
+1	./Computational Physics/Website/Weeks/Figures/Week 8
+1	./Computational Physics/Website/Weeks/Figures/Week 7
+1	./Computational Physics/Website/Weeks/Figures/Week 6
+1	./Computational Physics/Website/Weeks/Figures/Week 14
+1	./Computational Physics/Website/Weeks/Figures/Week 13
+1	./Computational Physics/Website/Weeks/Figures/Week 11
+1	./Computational Physics/Website/Weeks/Figures/Week 10
+1	./Computational Physics/Exercises/Week 9/__pycache__
+1	./Computational Physics/Exercises/Week 9/Figures
+1	./Computational Physics/Exercises/Week 8/Figures
+1	./Computational Physics/Exercises/Week 6/__pycache__
+1	./Computational Physics/Exercises/Week 5/__pycache__
+1	./Computational Physics/Exercises/Week 5/Figures
+1	./Computational Physics/Exercises/Week 4/__pycache__
+1	./Computational Physics/Exercises/Week 3/__pycache__
+1	./Computational Physics/Exercises/Week 3/Figures
+1	./Computational Physics/Exercises/Week 2/__pycache__
+1	./Computational Physics/Exercises/Week 2/Figures
+1	./Computational Physics/Exercises/Week 14
+1	./Computational Physics/Exercises/Week 13/dataset_for_exercise_63
+1	./Computational Physics/Exercises/Week 13/dataset_for_exercise_62
+1	./Computational Physics/Exercises/Week 12/__pycache__
+1	./Computational Physics/Exercises/Week 11/__pycache__
+1	./Computational Physics/Exercises/Week 10
+1	./Computational Physics/Exercises/Week 1/__pycache__
+1	./Computational Physics/Exercises/Week 1
+1	./Computational Physics/Exercises/Extras
+1	./Computational Physics/Exercises/ComPhyClasses/cpclasses/__pycache__
+1	./Computational Physics/Exercises/ComPhyClasses/cpclasses
+1	./Computational Physics/Exercises/ComPhyClasses/build/lib/modules
+1	./Computational Physics/Exercises/ComPhyClasses/build/lib
+1	./Computational Physics/Exercises/ComPhyClasses/build
+1	./Computational Physics/Exercises/ComPhyClasses/__pycache__
+1	./Computational Physics/Exercises/ComPhyClasses/ComPhyClasses.egg-info
+1	./Computational Physics/Exercises/ComPhyClasses
+1	./Computational Physics/Exercises/.ipynb_checkpoints
+1	./Computational Physics/.ipynb_checkpoints
+1	./.git/refs/tags
+1	./.git/refs/remotes/origin
+1	./.git/refs/remotes
+1	./.git/refs/heads
+1	./.git/refs
+1	./.git/objects/info
+1	./.git/objects/f3
+1	./.git/objects/d3
+1	./.git/objects/ac
+1	./.git/objects/a1
+1	./.git/objects/35
+1	./.git/objects/33
+1	./.git/objects/2a
+1	./.git/objects/0e
+1	./.git/logs/refs/remotes/origin
+1	./.git/logs/refs/remotes
+1	./.git/logs/refs/heads
+1	./.git/logs/refs
+1	./.git/logs
+1	./.git/info
+1	./.git/hooks
+1	./.git/branches
