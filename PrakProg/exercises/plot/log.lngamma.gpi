@@ -1,0 +1,10 @@
+ \
+	set terminal svg; \
+	set output "lngamma.svg"; \
+	set key bottom ;\
+	set xlabel "x" ;\
+	set ylabel "ln(Γ(x))" ;\
+	plot [-4:][-20:20] \
+		"data.txt" index 2 with lines title "ln(Γ(x))" \
+		,"data.txt" index 4 with points title "ln(factorials)" \
+

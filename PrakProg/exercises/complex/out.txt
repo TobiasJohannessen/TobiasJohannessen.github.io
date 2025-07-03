@@ -1,0 +1,12 @@
+sqrt(-1) = (0,1) Expected: (0,1)
+Are they (almost) equal? Yes
+
+ln(i) = (0,1.5708) Expected: i*pi/2 = (0,1.5708)
+Are they (almost) equal? Yes
+
+sqrt(i) = (0.707107,0.707107) Expected: 1/sqrt(2) + i/sqrt(2) = (0.707107,0.707107)
+Are they (almost) equal? Yes
+
+i^i = (0.20788,0) Expected: e^(-pi/2) = (0.20788,0)
+Are they (almost) equal? Yes
+Are they (almost) equal? Yes

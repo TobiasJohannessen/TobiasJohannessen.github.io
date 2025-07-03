@@ -1,0 +1,35 @@
+Initialize some vectors: 
+v1 = (1, 2, 3)
+v2 = (3, 2, 1)
+
+Test addition: 
+v3 = v1 + v2 = (4, 4, 4)
+v1 += v2, v1 = (4, 4, 4)
+
+Reset v1 
+v1 = (1, 2, 3)
+
+Test multiplication and division: 
+v4 = 5 * v1 = (5, 10, 15)
+v5 = v1 * 5 = (5, 10, 15)
+
+Test approximate function on vectors: 
+approx(v1, v2) = False
+approx(v4, v5) = True
+
+Test dot products:
+Dot product within vec class:
+v1 = (1, 2, 3)
+v2 = (3, 2, 1)
+v1.dot(v2) = 10
+Dot product outisde vec class:
+dot(v1, v1) = 10
+
+Test vector products:
+v6 = (1, 3, 4)
+v7 = (2, 7, -5)
+Vector product within vec class:
+v6.cross(v7) = (-43, 13, 1)
+Vector product outside vec class:
+cross(v6,v7)(-43, 13, 1)
+Expected result: (-43, 13, 1)

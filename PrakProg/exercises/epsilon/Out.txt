@@ -1,0 +1,25 @@
+Maximum Integer:
+Max int: 2147483647
+
+Minimum Integer:
+Min int: -2147483648
+
+Machine epsilons
+The machine epsilon for doubles is 2.22045e-16
+The machine epsilon for floats is 1.19209e-07
+
+a = 1 + tiny + tiny
+b = tiny + tiny + 1
+a == b: False
+a>1: False
+b>1: True
+
+Comparing Doubles
+Example:
+d1 = 7.999999999999999e-01
+d2 = 8.000000000000000e-01
+d1 == d2: False
+
+Comparing doubles using approximate equality function: 
+approx(d1, d2, acc = 1e-9, eps = 1e-9): True
+

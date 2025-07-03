@@ -1,0 +1,7 @@
+Fitted coefficients found using linear squars and uncertanties as the square root of the diagonal of the covariance matrix:
+Fitted ln(A) = 4.95866 ± 0.0354019
+Fitted lambda = 0.170624 ± 0.00715662
+A = 142.404 ± 5.04136
+Half-life: 4.06242 ± 0.170394 days
+The modern value of the half-life of ThX (Ra-224) is 3.6316(14) d, which is not in agreement with the value found here.
+The discrepancy is on the order of 2.5284σ.

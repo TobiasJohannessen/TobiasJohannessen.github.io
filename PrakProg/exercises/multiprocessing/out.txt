@@ -1,0 +1,36 @@
+Number of threads: 1
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 2
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 3
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 4
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 5
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 6
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 7
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 8
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 9
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 10
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 11
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979
+Number of threads: 12
+Number of terms: 100000000
+main: harmonic sum from 1 to 100000000 = 18.9979

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My WASM Page</title>
+</head>
+<body>
+  <h1>Welcome to my page!</h1>
+
+  <p>This is some text *before* the output from the C++ program:</p>
+
+  <div id="output-area">
+    <pre id="output"></pre> <!-- Emscripten uses this to display console output -->
+  </div>
+
+  <p>This is some text *after* the output from the C++ program.</p>
+
+  <script>
+    var Module = {
+      print: (function() {
+        return function(text) {
+          document.getElementById('output').textContent += text + '\n';
+        };
+      })(),
+      printErr: function(text) {
+        console.error(text);
+      }
+    };
+  </script>
+
+  <!-- The compiled glue JS will be inserted here -->
+  <script src="hello.js"></script>
+</body>
+</html>
+

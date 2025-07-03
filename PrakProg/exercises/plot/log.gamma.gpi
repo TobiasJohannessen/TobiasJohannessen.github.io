@@ -1,0 +1,10 @@
+ \
+	set terminal svg; \
+	set output "gamma.svg"; \
+	set key bottom ;\
+	set xlabel "x" ;\
+	set ylabel "Γ(x)" ;\
+	plot [-4:][-20:25] \
+		"data.txt" index 1 with lines title "gamma(x)" \
+		,"data.txt" index 3 with points title "factorials" \
+

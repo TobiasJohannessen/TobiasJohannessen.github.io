@@ -1,0 +1,53 @@
+--------------------TESTING MONTE CARLO INTEGRATION-----------------:
+Estimating the area of a unit circle using Monte Carlo method.
+
+N = 1000: Estimated integral = 0.781, Estimated error = 0.0130847
+How close?:
+  Result:   0.7810000000
+  Expected: 0.7853981634
+  PASSED
+
+N = 10000: Estimated integral = 0.7854000000, Estimated error = 0.0041056509
+How close?:
+  Result:   0.7854000000
+  Expected: 0.7853981634
+  PASSED
+
+N = 100000: Estimated integral = 0.7863100000, Estimated error = 0.0012962572
+How close?:
+  Result:   0.7863100000
+  Expected: 0.7853981634
+  PASSED
+
+
+--------------------TESTING DIFFICULT INTEGRAL-----------------:
+N = 1000: Estimated integral = 1.2921915189, Estimated error = 0.0477089699
+Difficult integral:
+  Result:   1.2921915189
+  Expected: 1.3932039297
+  FAILED
+
+N = 10000: Estimated integral = 1.3900025538, Estimated error = 0.0319125791
+Difficult integral:
+  Result:   1.3900025538
+  Expected: 1.3932039297
+  PASSED
+
+N = 100000: Estimated integral = 1.4172574802, Estimated error = 0.0304696121
+Difficult integral:
+  Result:   1.4172574802
+  Expected: 1.3932039297
+  FAILED
+
+N = 1000000: Estimated integral = 1.4138294383, Estimated error = 0.0202627294
+Difficult integral:
+  Result:   1.4138294383
+  Expected: 1.3932039297
+  FAILED
+
+
+--------------------TESTING HALTON SEQUENCE-----------------:
+Generating Halton sequence points:
+
+--------------------TESTING ADDITIVE LATICE-----------------:
+Generating Additive Lattice points:

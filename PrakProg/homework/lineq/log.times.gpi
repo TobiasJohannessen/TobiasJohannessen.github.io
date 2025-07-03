@@ -1,0 +1,11 @@
+set terminal pngcairo enhanced font "Arial,12"
+set output "qr_time_plot.png"
+set title "QR Factorization Time vs. Matrix Size (N), (Fit: O(N^3) Complexity)"
+set xlabel "Matrix Size N"
+set ylabel "Time (seconds)"
+set grid
+f(x) = a * x**3
+fit f(x) 'out.times.data' using 1:2 via a
+plot 'out.times.data' using 1:2 with points pt 7 lc rgb 'blue' title 'Measured Data', \
+     f(x) with lines lc rgb 'red' lw 2 title sprintf('Fitted O(N^3) (a=%.2e)', a)
+print sprintf('Fitted coefficient a for O(N^3): %.4e', a)
